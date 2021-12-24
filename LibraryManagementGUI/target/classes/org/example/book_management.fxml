@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="652.0" prefWidth="981.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.BookManagementController">
+   <children>
+      <TabPane onMouseClicked="#selectTagHandler" prefHeight="652.0" prefWidth="1162.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Đầu sách">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="258.0">
+                     <children>
+                        <AnchorPane layoutY="-1.0" prefHeight="624.0" prefWidth="342.0">
+                           <children>
+                              <TextField fx:id="txtSearchTitle" layoutX="35.0" layoutY="23.0" prefHeight="26.0" prefWidth="270.0" promptText="Nhập từ khóa tìm kiếm...">
+                                 <padding>
+                                    <Insets left="5.0" right="30.0" />
+                                 </padding></TextField>
+                              <Button layoutX="271.0" layoutY="22.0" mnemonicParsing="false" onAction="#searchTitleHandler" prefHeight="26.0" prefWidth="34.0">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/search_48px.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <GridPane layoutX="35.0" layoutY="66.0" prefHeight="492.0" prefWidth="272.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Mã đầu sách">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtTitleId" GridPane.columnIndex="1" />
+                                    <Label text="Tên sách" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtTitleName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Tác giả" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtAuthor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Nhà xuất bản" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtPublisher" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="Thể loại sách" GridPane.rowIndex="4">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtCategory" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Button mnemonicParsing="false" onAction="#addTitleHandler" prefHeight="50.0" prefWidth="162.0" text="Thêm đầu sách" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images/add_48px.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#deleteTitleHandler" prefHeight="50.0" prefWidth="162.0" text="Xóa đầu sách" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images/cancel_48px.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#editTitleHandler" prefHeight="50.0" prefWidth="162.0" text="Sửa đầu sách" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images/restart_48px.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#backTitleHandler" prefHeight="50.0" prefWidth="162.0" text="Quay lại" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                        <TableView fx:id="tbvTitle" layoutX="341.0" onMouseClicked="#clickTitleHandler" prefHeight="624.0" prefWidth="823.0">
+                          <columns>
+                            <TableColumn fx:id="colTitleId" prefWidth="92.00006103515625" text="Mã đầu sách" />
+                            <TableColumn fx:id="colTitleName" prefWidth="190.39999389648438" text="Tên sách" />
+                              <TableColumn fx:id="colAuthor" prefWidth="136.0" text="Tác giả" />
+                              <TableColumn fx:id="colPublisher" prefWidth="191.199951171875" text="Nhà xuất bản" />
+                              <TableColumn fx:id="colCategory" prefWidth="122.4000244140625" text="Thể loại sách" />
+                              <TableColumn fx:id="colQuantity" prefWidth="99.2000732421875" text="Số lượng" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Sách">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="258.0">
+                     <children>
+                        <AnchorPane layoutY="-1.0" prefHeight="624.0" prefWidth="342.0">
+                           <children>
+                              <TextField fx:id="txtSearchBook" layoutX="35.0" layoutY="23.0" prefHeight="26.0" prefWidth="270.0" promptText="Nhập từ khóa tìm kiếm...">
+                                 <padding>
+                                    <Insets left="5.0" right="30.0" />
+                                 </padding></TextField>
+                              <Button layoutX="271.0" layoutY="22.0" mnemonicParsing="false" onAction="#searchBookHandler" prefHeight="26.0" prefWidth="34.0">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/search_48px.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <GridPane layoutX="35.0" layoutY="66.0" prefHeight="486.0" prefWidth="272.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Tên sách">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="cbxBookName" prefHeight="26.0" prefWidth="223.0" GridPane.columnIndex="1" />
+                                    <Label text="Mô tả" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextArea fx:id="txtDescription" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Năm xuất bản" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtPublishingYear" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Ngày nhập sách" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <DatePicker fx:id="dpkEntryDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="Số lượng" GridPane.rowIndex="4">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txtQuantity" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Button mnemonicParsing="false" onAction="#addBookHandler" prefHeight="50.0" prefWidth="162.0" text="Thêm sách" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images/add_48px.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#deleteBookHandler" prefHeight="50.0" prefWidth="162.0" text="Xóa sách" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images/cancel_48px.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#editBookHandler" prefHeight="50.0" prefWidth="162.0" text="Sửa sách" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images/restart_48px.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#backBookHandler" prefHeight="50.0" prefWidth="162.0" text="Quay lại" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                        <TableView fx:id="tbvBook" layoutX="341.0" onMouseClicked="#clickBookHandler" prefHeight="624.0" prefWidth="823.0">
+                           <columns>
+                              <TableColumn fx:id="colBookId" prefWidth="96.80001831054688" text="Mã sách" />
+                              <TableColumn fx:id="colBookName" prefWidth="196.80001831054688" text="Tên sách" />
+                              <TableColumn fx:id="colDescription" prefWidth="241.5999755859375" text="Mô tả" />
+                              <TableColumn fx:id="colPublishingYear" prefWidth="96.7999267578125" text="Năm xuất bản" />
+                              <TableColumn fx:id="colEntryDate" prefWidth="112.0" text="Ngày nhập sách" />
+                              <TableColumn fx:id="colPosition" prefWidth="81.5999755859375" text="Vị trí sách" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
