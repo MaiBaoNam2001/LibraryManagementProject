@@ -79,6 +79,15 @@ public class BookManagementServices {
         }
     }
 
+    public static void updateBookName(String titleId, String titleName) throws SQLException {
+        try (Connection connection = JDBCUtils.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("UPDATE book SET BookName = ? WHERE TitleId = ?");
+            ps.setString(1, titleName);
+            ps.setString(2, titleId);
+            ps.executeUpdate();
+        }
+    }
+
     public static List<Book> getBookListByKeyword(String keyword) throws SQLException {
         List<Book> bookList = new ArrayList<>();
         try (Connection connection = JDBCUtils.getConnection()) {
@@ -91,6 +100,7 @@ public class BookManagementServices {
                 sqlQuery += " OR EntryDate LIKE concat('%',?,'%')";
                 sqlQuery += " OR Position LIKE concat('%',?,'%'))";
             }
+            sqlQuery += " ORDER BY BookId ASC";
             PreparedStatement ps = connection.prepareStatement(sqlQuery);
             if (keyword != null && !keyword.isEmpty()) {
                 ps.setString(1, keyword);
@@ -142,6 +152,29 @@ public class BookManagementServices {
             ps.setDate(5, new java.sql.Date(book.getEntryDate().getTime()));
             ps.setInt(6, book.getPosition());
             ps.setString(7, book.getTitle().getTitleId());
+            ps.executeUpdate();
+        }
+    }
+
+    public static void deleteBook(String bookId) throws SQLException {
+        try (Connection connection = JDBCUtils.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM book WHERE BookId = ?");
+            ps.setString(1, bookId);
+            ps.executeUpdate();
+        }
+    }
+
+    public static void editBook(String bookId, Book newBook) throws SQLException {
+        try (Connection connection = JDBCUtils.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("UPDATE book SET BookId = ?, BookName = ?, Description = ?, PublishingYear = ?, EntryDate = ?, Position = ?, TitleId = ? WHERE BookId = ?");
+            ps.setString(1, newBook.getBookId());
+            ps.setString(2, newBook.getBookName());
+            ps.setString(3, newBook.getDescription());
+            ps.setInt(4, newBook.getPublishingYear());
+            ps.setDate(5, new java.sql.Date(newBook.getEntryDate().getTime()));
+            ps.setInt(6, newBook.getPosition());
+            ps.setString(7, newBook.getTitle().getTitleId());
+            ps.setString(8, bookId);
             ps.executeUpdate();
         }
     }
