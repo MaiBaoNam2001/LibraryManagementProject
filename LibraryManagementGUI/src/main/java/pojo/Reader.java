@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Reader {
     private String readerId;
-    private  String readerName;
-    private  String gender;
+    private String readerName;
+    private String gender;
     private Date birthDay;
     private String address;
     private String email;

@@ -64,6 +64,9 @@ public class BookManagementController implements Initializable {
     private TableColumn<Title, Integer> colQuantity;
 
     @FXML
+    private TableColumn<Book, String> colStatus;
+
+    @FXML
     private TableColumn<Title, String> colTitleId;
 
     @FXML
@@ -82,6 +85,9 @@ public class BookManagementController implements Initializable {
     private TextField txtAuthor;
 
     @FXML
+    private TextField txtBookSearch;
+
+    @FXML
     private TextField txtCategory;
 
     @FXML
@@ -97,21 +103,18 @@ public class BookManagementController implements Initializable {
     private TextField txtQuantity;
 
     @FXML
-    private TextField txtSearchBook;
-
-    @FXML
-    private TextField txtSearchTitle;
-
-    @FXML
     private TextField txtTitleId;
 
     @FXML
     private TextArea txtTitleName;
 
     @FXML
+    private TextField txtTitleSearch;
+
+    @FXML
     void searchTitleHandler(ActionEvent event) throws SQLException {
         this.clearTitleDetails();
-        this.loadTitleTableData(this.txtSearchTitle.getText());
+        this.loadTitleTableData(this.txtTitleSearch.getText());
     }
 
     @FXML
@@ -186,17 +189,6 @@ public class BookManagementController implements Initializable {
     }
 
     @FXML
-    void clickTitleHandler(MouseEvent event) {
-        Title selectedTitle = this.tbvTitle.getSelectionModel().getSelectedItem();
-        if (selectedTitle == null) return;
-        this.txtTitleId.setText(selectedTitle.getTitleId());
-        this.txtTitleName.setText(selectedTitle.getTitleName());
-        this.txtAuthor.setText(selectedTitle.getAuthor());
-        this.txtPublisher.setText(selectedTitle.getPublisher());
-        this.txtCategory.setText(selectedTitle.getCategory());
-    }
-
-    @FXML
     void backTitleHandler(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
@@ -211,9 +203,20 @@ public class BookManagementController implements Initializable {
     }
 
     @FXML
+    void clickTitleHandler(MouseEvent event) {
+        Title selectedTitle = this.tbvTitle.getSelectionModel().getSelectedItem();
+        if (selectedTitle == null) return;
+        this.txtTitleId.setText(selectedTitle.getTitleId());
+        this.txtTitleName.setText(selectedTitle.getTitleName());
+        this.txtAuthor.setText(selectedTitle.getAuthor());
+        this.txtPublisher.setText(selectedTitle.getPublisher());
+        this.txtCategory.setText(selectedTitle.getCategory());
+    }
+
+    @FXML
     void searchBookHandler(ActionEvent event) throws SQLException {
         this.clearBookDetails();
-        this.loadBookTableData(this.txtSearchBook.getText());
+        this.loadBookTableData(this.txtBookSearch.getText());
     }
 
     @FXML
@@ -303,10 +306,7 @@ public class BookManagementController implements Initializable {
                     book.setEntryDate(Date.from(this.dpkEntryDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
                     book.setTitle(this.cbxBookName.getSelectionModel().getSelectedItem());
                     for (int i = 0; i < Integer.parseInt(this.txtQuantity.getText()); i++) {
-                        Book currentBook = bookList.get(bookList.size() - 1);
-                        book.setBookId(currentBook.getBookId());
-                        book.setPosition(currentBook.getPosition());
-                        BookManagementServices.editBook(currentBook.getBookId(), book);
+                        BookManagementServices.editBook(bookList.get(bookList.size() - 1).getBookId(), book);
                         bookList.remove(bookList.size() - 1);
                     }
                     this.clearBookDetails();
@@ -329,17 +329,6 @@ public class BookManagementController implements Initializable {
     }
 
     @FXML
-    void clickBookHandler(MouseEvent event) throws SQLException {
-        Book selectedBook = this.tbvBook.getSelectionModel().getSelectedItem();
-        if (selectedBook == null) return;
-        this.cbxBookName.getSelectionModel().select(this.cbxBookName.getItems().stream().filter(title -> title.getTitleId().equals(selectedBook.getTitle().getTitleId())).findFirst().orElse(null));
-        this.txtDescription.setText(selectedBook.getDescription());
-        this.txtPublishingYear.setText(String.valueOf(selectedBook.getPublishingYear()));
-        this.dpkEntryDate.setValue(LocalDate.parse(Utils.dateFormat.format(selectedBook.getEntryDate()), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        this.txtQuantity.setText(String.valueOf(this.tbvBook.getItems().stream().filter(book -> book.getTitle().getTitleId().equals(selectedBook.getTitle().getTitleId())).count()));
-    }
-
-    @FXML
     void backBookHandler(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
@@ -354,22 +343,26 @@ public class BookManagementController implements Initializable {
     }
 
     @FXML
-    void selectTagHandler(MouseEvent event) throws SQLException {
-        this.txtSearchTitle.clear();
-        this.txtSearchBook.clear();
+    void clickBookHandler(MouseEvent event) {
+        Book selectedBook = this.tbvBook.getSelectionModel().getSelectedItem();
+        if (selectedBook == null) return;
+        this.cbxBookName.getSelectionModel().select(this.cbxBookName.getItems().stream().filter(title -> title.getTitleId().equals(selectedBook.getTitle().getTitleId())).findFirst().orElse(null));
+        this.txtDescription.setText(selectedBook.getDescription());
+        this.txtPublishingYear.setText(String.valueOf(selectedBook.getPublishingYear()));
+        this.dpkEntryDate.setValue(LocalDate.parse(Utils.dateFormat.format(selectedBook.getEntryDate()), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        this.txtQuantity.setText(String.valueOf(this.tbvBook.getItems().stream().filter(book -> book.getTitle().getTitleId().equals(selectedBook.getTitle().getTitleId())).count()));
+    }
+
+    @FXML
+    void changeTagHandler(MouseEvent event) throws SQLException {
+        this.txtTitleSearch.clear();
+        this.txtBookSearch.clear();
         this.clearTitleDetails();
         this.clearBookDetails();
         this.loadBookTableData(null);
         this.cbxBookName.setItems(FXCollections.observableArrayList(BookManagementServices.getTitleListByKeyword(null)));
         this.cbxBookName.getSelectionModel().selectFirst();
         this.loadTitleTableData(null);
-    }
-
-    public void updateTitleQuantity() throws SQLException {
-        for (Title title : this.tbvTitle.getItems()) {
-            int quantity = (int) this.tbvBook.getItems().stream().filter(book -> book.getTitle().getTitleId().equals(title.getTitleId())).count();
-            BookManagementServices.updateTitleQuantity(title.getTitleId(), quantity);
-        }
     }
 
     @Override
@@ -414,6 +407,7 @@ public class BookManagementController implements Initializable {
         this.colPublishingYear.setCellValueFactory(new PropertyValueFactory<>("PublishingYear"));
         this.colEntryDate.setCellValueFactory(new PropertyValueFactory<>("EntryDate"));
         this.colPosition.setCellValueFactory(new PropertyValueFactory<>("Position"));
+        this.colStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
         this.tbvBook.setItems(FXCollections.observableArrayList(BookManagementServices.getBookListByKeyword(keyword)));
     }
 
@@ -429,4 +423,12 @@ public class BookManagementController implements Initializable {
         return this.txtDescription.getText().equals("") || this.txtPublishingYear.getText().equals("")
                 || this.dpkEntryDate.getValue() == null || this.txtQuantity.getText().equals("");
     }
+
+    public void updateTitleQuantity() throws SQLException {
+        for (Title title : this.tbvTitle.getItems()) {
+            int quantity = (int) this.tbvBook.getItems().stream().filter(book -> book.getTitle().getTitleId().equals(title.getTitleId())).count();
+            BookManagementServices.updateTitleQuantity(title.getTitleId(), quantity);
+        }
+    }
 }
+

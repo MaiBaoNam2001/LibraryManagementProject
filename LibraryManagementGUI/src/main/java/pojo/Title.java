@@ -1,7 +1,5 @@
 package pojo;
 
-import javafx.collections.ObservableArray;
-
 public class Title {
     private String titleId;
     private String titleName;
@@ -72,6 +70,6 @@ public class Title {
 
     @Override
     public String toString() {
-        return this.getTitleName();
+        return this.titleName;
     }
 }

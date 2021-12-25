@@ -9,15 +9,17 @@ public class Book {
     private int publishingYear;
     private Date entryDate;
     private int position;
+    private String status;
     private Title title;
 
-    public Book(String bookId, String bookName, String description, int publishingYear, Date entryDate, int position, Title title) {
+    public Book(String bookId, String bookName, String description, int publishingYear, Date entryDate, int position, String status, Title title) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.description = description;
         this.publishingYear = publishingYear;
         this.entryDate = entryDate;
         this.position = position;
+        this.status = status;
         this.title = title;
     }
 
@@ -70,6 +72,14 @@ public class Book {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Title getTitle() {

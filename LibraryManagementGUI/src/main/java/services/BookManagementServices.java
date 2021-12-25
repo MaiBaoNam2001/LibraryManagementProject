@@ -4,8 +4,10 @@ import configs.JDBCUtils;
 import pojo.Book;
 import pojo.Title;
 
-import javax.xml.transform.Result;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,7 +100,8 @@ public class BookManagementServices {
                 sqlQuery += " OR Description LIKE concat('%',?,'%')";
                 sqlQuery += " OR PublishingYear LIKE concat('%',?,'%')";
                 sqlQuery += " OR EntryDate LIKE concat('%',?,'%')";
-                sqlQuery += " OR Position LIKE concat('%',?,'%'))";
+                sqlQuery += " OR Position LIKE concat('%',?,'%')";
+                sqlQuery += " OR Status LIKE concat('%',?,'%'))";
             }
             sqlQuery += " ORDER BY BookId ASC";
             PreparedStatement ps = connection.prepareStatement(sqlQuery);
@@ -109,6 +112,7 @@ public class BookManagementServices {
                 ps.setString(4, keyword);
                 ps.setString(5, keyword);
                 ps.setString(6, keyword);
+                ps.setString(7, keyword);
             }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -119,6 +123,7 @@ public class BookManagementServices {
                 book.setPublishingYear(rs.getInt("PublishingYear"));
                 book.setEntryDate(rs.getDate("EntryDate"));
                 book.setPosition(rs.getInt("Position"));
+                book.setStatus(rs.getString("Status"));
                 Title title = new Title();
                 title.setTitleId(rs.getString("TitleId"));
                 title.setTitleName(rs.getString("TitleName"));
@@ -144,7 +149,7 @@ public class BookManagementServices {
 
     public static void addBook(Book book) throws SQLException {
         try (Connection connection = JDBCUtils.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO book VALUES(?,?,?,?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO book(BookId, BookName, Description, PublishingYear, EntryDate, Position, TitleId) VALUES(?,?,?,?,?,?,?)");
             ps.setString(1, book.getBookId());
             ps.setString(2, book.getBookName());
             ps.setString(3, book.getDescription());
@@ -166,15 +171,13 @@ public class BookManagementServices {
 
     public static void editBook(String bookId, Book newBook) throws SQLException {
         try (Connection connection = JDBCUtils.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("UPDATE book SET BookId = ?, BookName = ?, Description = ?, PublishingYear = ?, EntryDate = ?, Position = ?, TitleId = ? WHERE BookId = ?");
-            ps.setString(1, newBook.getBookId());
-            ps.setString(2, newBook.getBookName());
-            ps.setString(3, newBook.getDescription());
-            ps.setInt(4, newBook.getPublishingYear());
-            ps.setDate(5, new java.sql.Date(newBook.getEntryDate().getTime()));
-            ps.setInt(6, newBook.getPosition());
-            ps.setString(7, newBook.getTitle().getTitleId());
-            ps.setString(8, bookId);
+            PreparedStatement ps = connection.prepareStatement("UPDATE book SET BookName = ?, Description = ?, PublishingYear = ?, EntryDate = ?, TitleId = ? WHERE BookId = ?");
+            ps.setString(1, newBook.getBookName());
+            ps.setString(2, newBook.getDescription());
+            ps.setInt(3, newBook.getPublishingYear());
+            ps.setDate(4, new java.sql.Date(newBook.getEntryDate().getTime()));
+            ps.setString(5, newBook.getTitle().getTitleId());
+            ps.setString(6, bookId);
             ps.executeUpdate();
         }
     }
