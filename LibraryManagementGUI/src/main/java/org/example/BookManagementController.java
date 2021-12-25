@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class BookManagementController implements Initializable {
 
@@ -105,7 +106,7 @@ public class BookManagementController implements Initializable {
     private TextField txtTitleId;
 
     @FXML
-    private TextField txtTitleName;
+    private TextArea txtTitleName;
 
     @FXML
     void searchTitleHandler(ActionEvent event) throws SQLException {
@@ -169,6 +170,7 @@ public class BookManagementController implements Initializable {
             title.setCategory(this.txtCategory.getText());
             try {
                 BookManagementServices.editTitle(selectedTitle.getTitleId(), title);
+                BookManagementServices.updateBookName(selectedTitle.getTitleId(), title.getTitleName());
                 this.clearTitleDetails();
                 this.loadTitleTableData(null);
                 Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Sửa đầu sách thành công", "");
@@ -186,6 +188,7 @@ public class BookManagementController implements Initializable {
     @FXML
     void clickTitleHandler(MouseEvent event) {
         Title selectedTitle = this.tbvTitle.getSelectionModel().getSelectedItem();
+        if (selectedTitle == null) return;
         this.txtTitleId.setText(selectedTitle.getTitleId());
         this.txtTitleName.setText(selectedTitle.getTitleName());
         this.txtAuthor.setText(selectedTitle.getAuthor());
@@ -218,46 +221,117 @@ public class BookManagementController implements Initializable {
         if (this.isBookEmpty())
             Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Thêm sách thất bại", "Vui lòng nhập đầy đủ thông tin!");
         else {
-            try {
-                Book book = new Book();
-                book.setBookName(this.cbxBookName.getSelectionModel().getSelectedItem().toString());
-                book.setDescription(this.txtDescription.getText());
-                book.setPublishingYear(Integer.parseInt(this.txtPublishingYear.getText()));
-                book.setEntryDate(Date.from(this.dpkEntryDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-                book.setTitle(this.cbxBookName.getSelectionModel().getSelectedItem());
-                for (int i = 0; i < Integer.parseInt(this.txtQuantity.getText()); i++) {
-                    List<Book> bookList = BookManagementServices.getBookListByKeyword(null);
-                    Book lastBook = bookList.get(bookList.size() - 1);
-                    int idIndex = Integer.parseInt(lastBook.getBookId().substring(1));
-                    book.setBookId(String.format("B%05d", ++idIndex));
-                    int positionIndex = lastBook.getPosition();
-                    book.setPosition(++positionIndex);
-                    BookManagementServices.addBook(book);
+            if (Integer.parseInt(this.txtQuantity.getText()) > 0) {
+                try {
+                    Book book = new Book();
+                    book.setBookName(this.cbxBookName.getSelectionModel().getSelectedItem().toString());
+                    book.setDescription(this.txtDescription.getText());
+                    book.setPublishingYear(Integer.parseInt(this.txtPublishingYear.getText()));
+                    book.setEntryDate(Date.from(this.dpkEntryDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                    book.setTitle(this.cbxBookName.getSelectionModel().getSelectedItem());
+                    for (int i = 0; i < Integer.parseInt(this.txtQuantity.getText()); i++) {
+                        List<Book> bookList = BookManagementServices.getBookListByKeyword(null);
+                        if (bookList.size() == 0) {
+                            book.setBookId("B00001");
+                            book.setPosition(1);
+                        } else {
+                            Book lastBook = bookList.get(bookList.size() - 1);
+                            int idIndex = Integer.parseInt(lastBook.getBookId().substring(1));
+                            book.setBookId(String.format("B%05d", ++idIndex));
+                            int positionIndex = lastBook.getPosition();
+                            book.setPosition(++positionIndex);
+                        }
+                        BookManagementServices.addBook(book);
+                    }
+                    this.clearBookDetails();
+                    this.loadBookTableData(null);
+                    this.updateTitleQuantity();
+                    Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Thêm sách thành công", "");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    this.clearBookDetails();
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Thêm sách thất bại", "Mã sách mới đã tồn tại!");
                 }
+            } else {
                 this.clearBookDetails();
-                this.loadBookTableData(null);
-                Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Thêm sách thành công", "");
-            } catch (SQLException e) {
-                e.printStackTrace();
-                this.clearBookDetails();
-                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Thêm sách thất bại", "Mã sách đã tồn tại!");
+                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Thêm sách thất bại", "Số lượng sách không hợp lệ!");
             }
         }
     }
 
     @FXML
     void deleteBookHandler(ActionEvent event) {
-
+        if (this.isBookEmpty())
+            Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Xóa sách thất bại", "Vui lòng nhập đầy đủ thông tin!");
+        else {
+            List<Book> bookList = this.tbvBook.getItems().stream().filter(book -> book.getTitle().getTitleId().equals(this.cbxBookName.getSelectionModel().getSelectedItem().getTitleId())).collect(Collectors.toList());
+            if (Integer.parseInt(this.txtQuantity.getText()) > 0 && Integer.parseInt(this.txtQuantity.getText()) <= bookList.size()) {
+                try {
+                    for (int i = 0; i < Integer.parseInt(this.txtQuantity.getText()); i++) {
+                        BookManagementServices.deleteBook(bookList.get(bookList.size() - 1).getBookId());
+                        bookList.remove(bookList.size() - 1);
+                    }
+                    this.clearBookDetails();
+                    this.loadBookTableData(null);
+                    this.updateTitleQuantity();
+                    Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Xóa sách thành công", "");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    this.clearBookDetails();
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Xóa sách thất bại", "Mã sách đang được liên kết!");
+                }
+            } else {
+                this.clearBookDetails();
+                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Xóa sách thất bại", "Số lượng sách không hợp lệ!");
+            }
+        }
     }
 
     @FXML
     void editBookHandler(ActionEvent event) {
-
+        if (this.isBookEmpty())
+            Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Sửa sách thất bại", "Vui lòng nhập đầy đủ thông tin!");
+        else {
+            Book selectedBook = this.tbvBook.getSelectionModel().getSelectedItem();
+            List<Book> bookList = this.tbvBook.getItems().stream().filter(book -> book.getTitle().getTitleId().equals(selectedBook.getTitle().getTitleId())).collect(Collectors.toList());
+            if (Integer.parseInt(this.txtQuantity.getText()) > 0 && Integer.parseInt(this.txtQuantity.getText()) <= bookList.size()) {
+                try {
+                    Book book = new Book();
+                    book.setBookName(this.cbxBookName.getSelectionModel().getSelectedItem().toString());
+                    book.setDescription(this.txtDescription.getText());
+                    book.setPublishingYear(Integer.parseInt(this.txtPublishingYear.getText()));
+                    book.setEntryDate(Date.from(this.dpkEntryDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                    book.setTitle(this.cbxBookName.getSelectionModel().getSelectedItem());
+                    for (int i = 0; i < Integer.parseInt(this.txtQuantity.getText()); i++) {
+                        Book currentBook = bookList.get(bookList.size() - 1);
+                        book.setBookId(currentBook.getBookId());
+                        book.setPosition(currentBook.getPosition());
+                        BookManagementServices.editBook(currentBook.getBookId(), book);
+                        bookList.remove(bookList.size() - 1);
+                    }
+                    this.clearBookDetails();
+                    this.loadBookTableData(null);
+                    this.updateTitleQuantity();
+                    Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Sửa sách thành công", "");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    this.clearBookDetails();
+                    if (e.getErrorCode() == 1062)
+                        Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Sửa sách thất bại", "Mã sách mới đã tồn tại!");
+                    else if (e.getErrorCode() == 1451)
+                        Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Sửa sách thất bại", "Mã sách đang được liên kết!");
+                }
+            } else {
+                this.clearBookDetails();
+                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Sửa sách thất bại", "Số lượng sách không hợp lệ!");
+            }
+        }
     }
 
     @FXML
     void clickBookHandler(MouseEvent event) throws SQLException {
         Book selectedBook = this.tbvBook.getSelectionModel().getSelectedItem();
+        if (selectedBook == null) return;
         this.cbxBookName.getSelectionModel().select(this.cbxBookName.getItems().stream().filter(title -> title.getTitleId().equals(selectedBook.getTitle().getTitleId())).findFirst().orElse(null));
         this.txtDescription.setText(selectedBook.getDescription());
         this.txtPublishingYear.setText(String.valueOf(selectedBook.getPublishingYear()));
@@ -288,11 +362,14 @@ public class BookManagementController implements Initializable {
         this.loadBookTableData(null);
         this.cbxBookName.setItems(FXCollections.observableArrayList(BookManagementServices.getTitleListByKeyword(null)));
         this.cbxBookName.getSelectionModel().selectFirst();
+        this.loadTitleTableData(null);
+    }
+
+    public void updateTitleQuantity() throws SQLException {
         for (Title title : this.tbvTitle.getItems()) {
             int quantity = (int) this.tbvBook.getItems().stream().filter(book -> book.getTitle().getTitleId().equals(title.getTitleId())).count();
             BookManagementServices.updateTitleQuantity(title.getTitleId(), quantity);
         }
-        this.loadTitleTableData(null);
     }
 
     @Override
