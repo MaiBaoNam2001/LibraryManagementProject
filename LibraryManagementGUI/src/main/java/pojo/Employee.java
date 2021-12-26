@@ -9,16 +9,14 @@ public class Employee {
     private String address;
     private String email;
     private String phoneNumber;
-    private User user;
 
-    public Employee(String employeeId, String employeeName, Date birthDay, String address, String email, String phoneNumber, User user) {
+    public Employee(String employeeId, String employeeName, Date birthDay, String address, String email, String phoneNumber) {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.birthDay = birthDay;
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.user = user;
     }
 
     public Employee() {
@@ -70,13 +68,5 @@ public class Employee {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

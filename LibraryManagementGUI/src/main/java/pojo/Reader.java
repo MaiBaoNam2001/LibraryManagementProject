@@ -12,9 +12,8 @@ public class Reader {
     private String phoneNumber;
     private String object;
     private String department;
-    private ReaderCard readerCard;
 
-    public Reader(String readerId, String readerName, String gender, Date birthDay, String address, String email, String phoneNumber, String object, String department, ReaderCard readerCard) {
+    public Reader(String readerId, String readerName, String gender, Date birthDay, String address, String email, String phoneNumber, String object, String department) {
         this.readerId = readerId;
         this.readerName = readerName;
         this.gender = gender;
@@ -24,7 +23,6 @@ public class Reader {
         this.phoneNumber = phoneNumber;
         this.object = object;
         this.department = department;
-        this.readerCard = readerCard;
     }
 
     public Reader() {
@@ -102,11 +100,8 @@ public class Reader {
         this.department = department;
     }
 
-    public ReaderCard getReaderCard() {
-        return readerCard;
-    }
-
-    public void setReaderCard(ReaderCard readerCard) {
-        this.readerCard = readerCard;
+    @Override
+    public String toString() {
+        return this.readerId;
     }
 }

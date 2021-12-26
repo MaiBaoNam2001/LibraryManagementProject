@@ -6,11 +6,13 @@ public class ReaderCard {
     private String readerCardId;
     private Date startDate;
     private Date expirationDate;
+    private Reader reader;
 
-    public ReaderCard(String readerCardId, Date startDate, Date expirationDate) {
+    public ReaderCard(String readerCardId, Date startDate, Date expirationDate, Reader reader) {
         this.readerCardId = readerCardId;
         this.startDate = startDate;
         this.expirationDate = expirationDate;
+        this.reader = reader;
     }
 
     public ReaderCard() {
@@ -38,5 +40,13 @@ public class ReaderCard {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public Reader getReader() {
+        return reader;
+    }
+
+    public void setReader(Reader reader) {
+        this.reader = reader;
     }
 }

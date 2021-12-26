@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
 import pojo.Employee;
+import pojo.User;
 import services.LoginServices;
 
 public class LoginController {
@@ -32,7 +33,7 @@ public class LoginController {
     private TextField txtUsername;
 
     private Connection connection;
-    public static Employee user;
+    public static User user;
 
     public LoginController() throws SQLException {
         this.connection = JDBCUtils.getConnection();

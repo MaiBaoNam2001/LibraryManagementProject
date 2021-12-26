@@ -2,6 +2,7 @@ org\example\PrimaryController.class
 pojo\User.class
 org\example\BookManagementController.class
 module-info.class
+services\ReaderManagementServices.class
 pojo\ReaderCard.class
 pojo\Book.class
 pojo\Reader.class
@@ -14,4 +15,5 @@ pojo\Employee.class
 configs\Utils.class
 org\example\SecondaryController.class
 configs\JDBCUtils.class
+org\example\ReaderManagementController.class
 pojo\Title.class

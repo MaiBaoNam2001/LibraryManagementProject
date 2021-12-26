@@ -37,12 +37,21 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void borrowedBookManagementHandler(ActionEvent event) {
-
+    void readerManagementHandler(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.close();
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("reader_management.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setTitle("Quản lý thư viện | Quản lý độc giả");
+        stage.show();
     }
 
     @FXML
-    void readerManagementHandler(ActionEvent event) {
+    void borrowedBookManagementHandler(ActionEvent event) {
 
     }
 
@@ -53,7 +62,7 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.txtEmployeeName.setText(LoginController.user.getEmployeeName());
-        this.txtRole.setText(LoginController.user.getUser().getRole());
+        this.txtEmployeeName.setText(LoginController.user.getEmployee().getEmployeeName());
+        this.txtRole.setText(LoginController.user.getRole());
     }
 }

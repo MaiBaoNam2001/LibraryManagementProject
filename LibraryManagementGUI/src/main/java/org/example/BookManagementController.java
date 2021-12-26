@@ -1,6 +1,7 @@
 package org.example;
 
 import configs.Utils;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -253,7 +254,7 @@ public class BookManagementController implements Initializable {
                 } catch (SQLException e) {
                     e.printStackTrace();
                     this.clearBookDetails();
-                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Thêm sách thất bại", "Mã sách mới đã tồn tại!");
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Thêm sách thất bại", "Mã sách đã tồn tại!");
                 }
             } else {
                 this.clearBookDetails();
