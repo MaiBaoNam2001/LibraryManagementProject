@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,5 +139,40 @@ public class ReaderManagementServices {
             }
         }
         return readerCardList;
+    }
+
+    public static void addReaderCard(ReaderCard readerCard) throws SQLException {
+        if (readerCard.getStartDate().compareTo(readerCard.getExpirationDate()) < 0) {
+            try (Connection connection = JDBCUtils.getConnection()) {
+                PreparedStatement ps = connection.prepareStatement("INSERT INTO reader_card VALUES (?,?,?,?)");
+                ps.setString(1, readerCard.getReaderCardId());
+                ps.setDate(2, new java.sql.Date(readerCard.getStartDate().getTime()));
+                ps.setDate(3, new java.sql.Date(readerCard.getExpirationDate().getTime()));
+                ps.setString(4, readerCard.getReader().getReaderId());
+                ps.executeUpdate();
+            }
+        } else throw new DateTimeException("Invalid Date");
+    }
+
+    public static void deleteReaderCard(String readerCardId) throws SQLException {
+        try (Connection connection = JDBCUtils.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM reader_card WHERE ReaderCardId = ?");
+            ps.setString(1, readerCardId);
+            ps.executeUpdate();
+        }
+    }
+
+    public static void editReaderCard(String readerCardId, ReaderCard newReaderCard) throws SQLException {
+        if (newReaderCard.getStartDate().compareTo(newReaderCard.getExpirationDate()) < 0) {
+            try (Connection connection = JDBCUtils.getConnection()) {
+                PreparedStatement ps = connection.prepareStatement("UPDATE reader_card SET ReaderCardId = ?, StartDate = ?, ExpirationDate = ?, ReaderId = ? WHERE ReaderCardId = ?");
+                ps.setString(1, newReaderCard.getReaderCardId());
+                ps.setDate(2, new java.sql.Date(newReaderCard.getStartDate().getTime()));
+                ps.setDate(3, new java.sql.Date(newReaderCard.getExpirationDate().getTime()));
+                ps.setString(4, newReaderCard.getReader().getReaderId());
+                ps.setString(5, readerCardId);
+                ps.executeUpdate();
+            }
+        } else throw new DateTimeException("Invalid Date");
     }
 }

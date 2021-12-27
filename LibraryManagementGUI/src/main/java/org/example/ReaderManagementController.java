@@ -21,6 +21,7 @@ import services.ReaderManagementServices;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -201,7 +202,6 @@ public class ReaderManagementController implements Initializable {
             reader.setDepartment(this.txtDepartment.getText());
             try {
                 ReaderManagementServices.editReader(selectedReader.getReaderId(), reader);
-                // To do
                 this.clearReaderDetails();
                 this.loadReaderTableData(null);
                 Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Sửa độc giả thành công", "");
@@ -255,17 +255,81 @@ public class ReaderManagementController implements Initializable {
 
     @FXML
     void addReaderCardHandler(ActionEvent event) {
-
+        if (this.isReaderCardEmpty())
+            Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Thêm thẻ độc giả thất bại", "Vui lòng nhập đầy đủ thông tin!");
+        else {
+            ReaderCard readerCard = new ReaderCard();
+            readerCard.setReaderCardId(this.txtReaderCardId.getText());
+            readerCard.setReader(this.cbxReaderId.getSelectionModel().getSelectedItem());
+            readerCard.setStartDate(Date.from(this.dpkStartDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            readerCard.setExpirationDate(Date.from(this.dpkExpirationDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            try {
+                ReaderManagementServices.addReaderCard(readerCard);
+                this.clearReaderCardDetails();
+                this.loadReaderCardTableData(null);
+                Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Thêm thẻ độc giả thành công", "");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                this.clearReaderCardDetails();
+                if (e.getMessage().contains("PRIMARY"))
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Thêm thẻ độc giả thất bại", "Mã thẻ độc giả đã tồn tại!");
+                else
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Thêm thẻ độc giả thất bại", "Mã độc giả đã tồn tại!");
+            } catch (DateTimeException e) {
+                e.printStackTrace();
+                this.clearReaderCardDetails();
+                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Thêm thẻ độc giả thất bại", "Ngày không hợp lệ!");
+            }
+        }
     }
 
     @FXML
     void deleteReaderCardHandler(ActionEvent event) {
-
+        if (this.isReaderCardEmpty())
+            Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Xóa thẻ độc giả thất bại", "Vui lòng nhập đầy đủ thông tin!");
+        else {
+            try {
+                ReaderManagementServices.deleteReaderCard(this.txtReaderCardId.getText());
+                this.clearReaderCardDetails();
+                this.loadReaderCardTableData(null);
+                Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Xóa thẻ độc giả thành công", "");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                this.clearReaderCardDetails();
+                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Xóa thẻ độc giả thất bại", "Mã thẻ độc giả đang được liên kết!");
+            }
+        }
     }
 
     @FXML
     void editReaderCardHandler(ActionEvent event) {
-
+        if (this.isReaderCardEmpty())
+            Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Sửa thẻ độc giả thất bại", "Vui lòng nhập đầy đủ thông tin!");
+        else {
+            ReaderCard selectedReaderCard = this.tbvReaderCard.getSelectionModel().getSelectedItem();
+            ReaderCard readerCard = new ReaderCard();
+            readerCard.setReaderCardId(this.txtReaderCardId.getText());
+            readerCard.setReader(this.cbxReaderId.getSelectionModel().getSelectedItem());
+            readerCard.setStartDate(Date.from(this.dpkStartDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            readerCard.setExpirationDate(Date.from(this.dpkExpirationDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            try {
+                ReaderManagementServices.editReaderCard(selectedReaderCard.getReaderCardId(), readerCard);
+                this.clearReaderCardDetails();
+                this.loadReaderCardTableData(null);
+                Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Sửa thẻ độc giả thành công", "");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                this.clearReaderCardDetails();
+                if (e.getMessage().contains("PRIMARY"))
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Sửa thẻ độc giả thất bại", "Mã thẻ độc giả mới đã tồn tại!");
+                else
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Sửa thẻ độc giả thất bại", "Mã độc giả mới đã tồn tại!");
+            } catch (DateTimeException e) {
+                e.printStackTrace();
+                this.clearReaderCardDetails();
+                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Sửa thẻ độc giả thất bại", "Ngày không hợp lệ!");
+            }
+        }
     }
 
     @FXML
@@ -367,5 +431,9 @@ public class ReaderManagementController implements Initializable {
         this.cbxReaderId.getSelectionModel().selectFirst();
         this.dpkStartDate.setValue(null);
         this.dpkExpirationDate.setValue(null);
+    }
+
+    public boolean isReaderCardEmpty() {
+        return this.txtReaderCardId.getText().equals("") || this.dpkStartDate.getValue() == null || this.dpkExpirationDate.getValue() == null;
     }
 }
