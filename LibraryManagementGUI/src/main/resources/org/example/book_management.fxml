@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#changeTagHandler" prefHeight="787.0" prefWidth="1495.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.BookManagementController">
+<TabPane fx:id="tpBook" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1495.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.BookManagementController">
   <tabs>
     <Tab text="Quản lý đầu sách">
       <content>
@@ -122,7 +122,7 @@
                         <TableColumn fx:id="colAuthor" minWidth="6.4000244140625" prefWidth="232.79998779296875" text="Tác giả" />
                         <TableColumn fx:id="colPublisher" prefWidth="217.59991455078125" text="Nhà xuất bản" />
                         <TableColumn fx:id="colCategory" prefWidth="150.4000244140625" text="Thể loại sách" />
-                        <TableColumn fx:id="colQuantity" prefWidth="136.7999267578125" text="Số lượng" />
+                        <TableColumn fx:id="colQuantity" prefWidth="125.59999999999991" text="Số lượng" />
                     </columns>
                   </TableView>
                </children></AnchorPane>

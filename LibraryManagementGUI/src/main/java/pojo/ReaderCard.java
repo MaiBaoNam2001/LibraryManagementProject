@@ -49,4 +49,9 @@ public class ReaderCard {
     public void setReader(Reader reader) {
         this.reader = reader;
     }
+
+    @Override
+    public String toString() {
+        return this.readerCardId;
+    }
 }

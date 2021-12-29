@@ -30,6 +30,8 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class BookManagementController implements Initializable {
+    @FXML
+    private TabPane tpBook;
 
     @FXML
     private ComboBox<Title> cbxBookName;
@@ -354,18 +356,6 @@ public class BookManagementController implements Initializable {
         this.txtQuantity.setText(String.valueOf(this.tbvBook.getItems().stream().filter(book -> book.getTitle().getTitleId().equals(selectedBook.getTitle().getTitleId())).count()));
     }
 
-    @FXML
-    void changeTagHandler(MouseEvent event) throws SQLException {
-        this.txtTitleSearch.clear();
-        this.txtBookSearch.clear();
-        this.clearTitleDetails();
-        this.clearBookDetails();
-        this.loadBookTableData(null);
-        this.cbxBookName.setItems(FXCollections.observableArrayList(BookManagementServices.getTitleListByKeyword(null)));
-        this.cbxBookName.getSelectionModel().selectFirst();
-        this.loadTitleTableData(null);
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -373,6 +363,20 @@ public class BookManagementController implements Initializable {
             this.loadBookTableData(null);
             this.cbxBookName.setItems(FXCollections.observableArrayList(BookManagementServices.getTitleListByKeyword(null)));
             this.cbxBookName.getSelectionModel().selectFirst();
+            this.tpBook.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+                try {
+                    this.txtTitleSearch.clear();
+                    this.txtBookSearch.clear();
+                    this.clearTitleDetails();
+                    this.clearBookDetails();
+                    this.loadBookTableData(null);
+                    this.cbxBookName.setItems(FXCollections.observableArrayList(BookManagementServices.getTitleListByKeyword(null)));
+                    this.cbxBookName.getSelectionModel().selectFirst();
+                    this.loadTitleTableData(null);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (SQLException e) {
             e.printStackTrace();
         }

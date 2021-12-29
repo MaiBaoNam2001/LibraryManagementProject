@@ -89,4 +89,9 @@ public class Book {
     public void setTitle(Title title) {
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        return this.bookId;
+    }
 }

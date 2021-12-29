@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<TabPane fx:id="tpBorrowedBook" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="787.0" prefWidth="1495.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.BorrowedBookManagementController">
+  <tabs>
+    <Tab text="Quản lý mượn sách">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="txtBorrowedCardSearch" layoutX="26.0" layoutY="43.0" prefHeight="26.0" prefWidth="250.0" promptText="Từ khóa tìm kiếm" />
+                  <Button layoutX="273.0" layoutY="42.0" mnemonicParsing="false" onAction="#searchBorrowedCardHandler">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/search_48px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <GridPane layoutX="27.0" layoutY="82.0" prefHeight="654.0" prefWidth="282.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Mã thẻ mượn">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtBorrowedCardId" prefHeight="26.0" prefWidth="192.0" GridPane.columnIndex="1" />
+                        <Label text="Mã thẻ độc giả" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="cbxReaderCardId" onAction="#showReaderNameHandler" prefHeight="26.0" prefWidth="676.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Tên độc giả" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtReaderName" editable="false" focusTraversable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Mã nhân viên" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtEmployeeId" editable="false" focusTraversable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Tên nhân viên" GridPane.rowIndex="4">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtEmployeeName" editable="false" focusTraversable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label text="Ngày mượn sách" GridPane.rowIndex="5">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <DatePicker fx:id="dpkBorrowedDate" prefHeight="26.0" prefWidth="747.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Button mnemonicParsing="false" onAction="#addBorrowedCardHandler" prefHeight="38.0" prefWidth="245.0" text="Thêm thẻ mượn" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/add_48px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#deleteBorrowedCardHandler" prefHeight="38.0" prefWidth="225.0" text="Xóa thẻ mượn" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/cancel_48px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#editBorrowedCardHandler" prefHeight="38.0" prefWidth="213.0" text="Sửa thẻ mượn" GridPane.columnIndex="1" GridPane.rowIndex="11">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/restart_48px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label text="Mã sách" GridPane.rowIndex="13">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtBookId" prefHeight="26.0" prefWidth="504.0" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                        <Label text="Trạng thái" GridPane.rowIndex="14">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtStatus" editable="false" focusTraversable="false" mouseTransparent="true" prefHeight="26.0" prefWidth="638.0" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+                        <Button mnemonicParsing="false" onAction="#checkBookHandler" prefHeight="38.0" prefWidth="245.0" text="Kiểm tra sách" GridPane.columnIndex="1" GridPane.rowIndex="16">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/ok_48px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#borrowBookHandler" prefHeight="38.0" prefWidth="245.0" text="Mượn sách" GridPane.columnIndex="1" GridPane.rowIndex="18">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/borrow_book_2_48px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#backBorrowedCardHandler" prefHeight="38.0" prefWidth="246.0" text="Quay lại" GridPane.columnIndex="1" GridPane.rowIndex="20" />
+                     </children>
+                  </GridPane>
+                  <TableView fx:id="tbvBorrowedCard" layoutX="342.0" layoutY="-1.0" onMouseClicked="#clickBorrowedCardHandler" prefHeight="369.0" prefWidth="1154.0">
+                    <columns>
+                      <TableColumn fx:id="colBorrowedCardId" prefWidth="255.99993896484375" text="Mã thẻ mượn" />
+                      <TableColumn fx:id="colReaderCardId" prefWidth="262.40008544921875" text="Mã thẻ độc giả" />
+                        <TableColumn fx:id="colReaderName" minWidth="6.4000244140625" prefWidth="357.5999755859375" text="Tên độc giả" />
+                        <TableColumn fx:id="colBorrowedDate" prefWidth="282.4000244140625" text="Ngày mượn sách" />
+                    </columns>
+                  </TableView>
+                  <TableView fx:id="tbvBorrowedCardDetails" layoutX="342.0" layoutY="389.0" prefHeight="369.0" prefWidth="1154.0">
+                     <columns>
+                        <TableColumn fx:id="colBookId" prefWidth="190.4000244140625" text="Mã sách" />
+                        <TableColumn fx:id="colBookName" prefWidth="291.99993896484375" text="Tên sách" />
+                        <TableColumn fx:id="colStatus" minWidth="6.4000244140625" prefWidth="254.40008544921875" text="Trạng thái" />
+                        <TableColumn fx:id="colReturned" prefWidth="166.4000244140625" text="Đã trả sách" />
+                        <TableColumn fx:id="colReturnedDate" minWidth="0.0" prefWidth="255.199951171875" text="Ngày trả sách" />
+                     </columns>
+                  </TableView>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="Quản lý trả sách">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <GridPane layoutX="27.0" layoutY="82.0" prefHeight="342.0" prefWidth="282.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="Mã thẻ độc giả">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtReaderCardId" prefHeight="26.0" prefWidth="192.0" GridPane.columnIndex="1" />
+                        <Button mnemonicParsing="false" onAction="#checkReaderCardHandler" prefHeight="38.0" prefWidth="245.0" text="Kiểm tra thẻ" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/ok_48px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label text="Mã sách" GridPane.rowIndex="4">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtBookId2" editable="false" focusTraversable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Button mnemonicParsing="false" onAction="#returnBookHandler" prefHeight="38.0" prefWidth="245.0" text="Trả sách" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Button mnemonicParsing="false" onAction="#lostBookHandler" prefHeight="38.0" prefWidth="225.0" text="Mất sách" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <Label text="Tiền phạt" GridPane.rowIndex="10">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtFine" editable="false" focusTraversable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <Button mnemonicParsing="false" onAction="#backReturnedBookHandler" prefHeight="38.0" prefWidth="246.0" text="Quay lại" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                     </children>
+                  </GridPane>
+                  <TableView fx:id="tbvBorrowedCardDetails2" layoutX="342.0" layoutY="-1.0" onMouseClicked="#clickBorrowedCardDetailsHandler" prefHeight="369.0" prefWidth="1154.0">
+                     <columns>
+                        <TableColumn fx:id="colBorrowedCardId2" prefWidth="178.0" text="Mã thẻ mượn" />
+                        <TableColumn fx:id="colBookId2" prefWidth="178.0" text="Mã sách" />
+                        <TableColumn fx:id="colBookName2" minWidth="6.4000244140625" prefWidth="360.0" text="Tên sách" />
+                        <TableColumn fx:id="colBorrowedDate3" prefWidth="219.0" text="Ngày mượn sách" />
+                        <TableColumn fx:id="colStatus2" prefWidth="217.5999511718751" text="Trạng thái" />
+                     </columns>
+                  </TableView>
+                  <TableView fx:id="tbvReturnedBook" layoutX="342.0" layoutY="389.0" prefHeight="369.0" prefWidth="1154.0">
+                     <columns>
+                        <TableColumn fx:id="colBorrowedCardId3" prefWidth="178.0" text="Mã thẻ mượn" />
+                        <TableColumn fx:id="colBookId3" prefWidth="178.0" text="Mã sách" />
+                        <TableColumn fx:id="colBookName3" minWidth="6.4000244140625" prefWidth="360.0" text="Tên sách" />
+                        <TableColumn fx:id="colBorrowedDate4" prefWidth="219.0" text="Ngày mượn sách" />
+                        <TableColumn fx:id="colReturnedDate2" prefWidth="217.5999511718751" text="Ngày trả sách" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>

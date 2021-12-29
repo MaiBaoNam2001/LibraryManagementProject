@@ -29,6 +29,8 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ReaderManagementController implements Initializable {
+    @FXML
+    private TabPane tpReader;
 
     @FXML
     private ComboBox<Reader> cbxReaderId;
@@ -357,18 +359,6 @@ public class ReaderManagementController implements Initializable {
     }
 
     @FXML
-    void changeTagHandler(MouseEvent event) throws SQLException {
-        this.txtReaderSearch.clear();
-        this.txtReaderCardSearch.clear();
-        this.clearReaderDetails();
-        this.clearReaderCardDetails();
-        this.loadReaderTableData(null);
-        this.loadReaderCardTableData(null);
-        this.cbxReaderId.setItems(FXCollections.observableArrayList(ReaderManagementServices.getReaderListByKeyword(null)));
-        this.cbxReaderId.getSelectionModel().selectFirst();
-    }
-
-    @FXML
     void showReaderNameHandler(ActionEvent event) {
         this.txtReaderName2.setText(this.cbxReaderId.getSelectionModel().getSelectedItem().getReaderName());
     }
@@ -381,6 +371,20 @@ public class ReaderManagementController implements Initializable {
             this.cbxReaderId.setItems(FXCollections.observableArrayList(ReaderManagementServices.getReaderListByKeyword(null)));
             this.cbxReaderId.getSelectionModel().selectFirst();
             this.txtReaderName2.setText(this.cbxReaderId.getSelectionModel().getSelectedItem().getReaderName());
+            this.tpReader.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+                try {
+                    this.txtReaderSearch.clear();
+                    this.txtReaderCardSearch.clear();
+                    this.clearReaderDetails();
+                    this.clearReaderCardDetails();
+                    this.loadReaderTableData(null);
+                    this.loadReaderCardTableData(null);
+                    this.cbxReaderId.setItems(FXCollections.observableArrayList(ReaderManagementServices.getReaderListByKeyword(null)));
+                    this.cbxReaderId.getSelectionModel().selectFirst();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (SQLException e) {
             e.printStackTrace();
         }
