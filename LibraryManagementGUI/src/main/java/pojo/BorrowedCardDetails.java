@@ -7,14 +7,14 @@ public class BorrowedCardDetails {
     private Book book;
     private boolean returned;
     private Date returnedDate;
-    private Double Fine;
+    private Double fine;
 
     public BorrowedCardDetails(BorrowedCard borrowedCard, Book book, boolean returned, Date returnedDate, Double fine) {
         this.borrowedCard = borrowedCard;
         this.book = book;
         this.returned = returned;
         this.returnedDate = returnedDate;
-        Fine = fine;
+        this.fine = fine;
     }
 
     public BorrowedCardDetails() {
@@ -53,10 +53,10 @@ public class BorrowedCardDetails {
     }
 
     public Double getFine() {
-        return Fine;
+        return fine;
     }
 
     public void setFine(Double fine) {
-        Fine = fine;
+        this.fine = fine;
     }
 }
