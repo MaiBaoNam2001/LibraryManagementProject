@@ -12,6 +12,7 @@ org\example\App.class
 services\LoginServices.class
 pojo\BorrowedCard.class
 org\example\LoginController.class
+pojo\ReturnType.class
 services\BookManagementServices.class
 org\example\HomeController.class
 pojo\Employee.class

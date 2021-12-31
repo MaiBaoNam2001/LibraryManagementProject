@@ -1,6 +1,7 @@
 package org.example;
 
 import configs.Utils;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -14,10 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import pojo.Book;
-import pojo.BorrowedCard;
-import pojo.BorrowedCardDetails;
-import pojo.ReaderCard;
+import pojo.*;
 import services.BookManagementServices;
 import services.BorrowedBookManagementServices;
 import services.ReaderManagementServices;
@@ -29,10 +27,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.SimpleTimeZone;
+import java.util.*;
 
 public class BorrowedBookManagementController implements Initializable {
     @FXML
@@ -45,37 +40,37 @@ public class BorrowedBookManagementController implements Initializable {
     private TableColumn<BorrowedCardDetails, String> colBookId;
 
     @FXML
-    private TableColumn<?, ?> colBookId2;
+    private TableColumn<BorrowedCardDetails, String> colBookId2;
 
     @FXML
-    private TableColumn<?, ?> colBookId3;
+    private TableColumn<BorrowedCardDetails, String> colBookId3;
 
     @FXML
     private TableColumn<BorrowedCardDetails, String> colBookName;
 
     @FXML
-    private TableColumn<?, ?> colBookName2;
+    private TableColumn<BorrowedCardDetails, String> colBookName2;
 
     @FXML
-    private TableColumn<?, ?> colBookName3;
+    private TableColumn<BorrowedCardDetails, String> colBookName3;
 
     @FXML
     private TableColumn<BorrowedCard, String> colBorrowedCardId;
 
     @FXML
-    private TableColumn<?, ?> colBorrowedCardId2;
+    private TableColumn<BorrowedCardDetails, String> colBorrowedCardId2;
 
     @FXML
-    private TableColumn<?, ?> colBorrowedCardId3;
+    private TableColumn<BorrowedCardDetails, String> colBorrowedCardId3;
 
     @FXML
     private TableColumn<BorrowedCard, Date> colBorrowedDate;
 
     @FXML
-    private TableColumn<?, ?> colBorrowedDate3;
+    private TableColumn<BorrowedCardDetails, Date> colBorrowedDate2;
 
     @FXML
-    private TableColumn<?, ?> colBorrowedDate4;
+    private TableColumn<BorrowedCardDetails, Date> colBorrowedDate3;
 
     @FXML
     private TableColumn<BorrowedCardDetails, Boolean> colReturned;
@@ -90,13 +85,19 @@ public class BorrowedBookManagementController implements Initializable {
     private TableColumn<BorrowedCard, String> colReaderName;
 
     @FXML
-    private TableColumn<?, ?> colReturnedDate2;
+    private TableColumn<BorrowedCardDetails, Date> colReturnedDate2;
 
     @FXML
-    private TableColumn<?, ?> colStatus2;
+    private TableColumn<BorrowedCardDetails, String> colStatus2;
+
+    @FXML
+    private TableColumn<BorrowedCardDetails, String> colFine;
 
     @FXML
     private DatePicker dpkBorrowedDate;
+
+    @FXML
+    private DatePicker dpkReturnedDate;
 
     @FXML
     private TableView<BorrowedCard> tbvBorrowedCard;
@@ -105,10 +106,10 @@ public class BorrowedBookManagementController implements Initializable {
     private TableView<BorrowedCardDetails> tbvBorrowedCardDetails;
 
     @FXML
-    private TableView<?> tbvBorrowedCardDetails2;
+    private TableView<BorrowedCardDetails> tbvBorrowedCardDetails2;
 
     @FXML
-    private TableView<?> tbvReturnedBook;
+    private TableView<BorrowedCardDetails> tbvReturnedBook;
 
     @FXML
     private TabPane tpBorrowedBook;
@@ -132,10 +133,10 @@ public class BorrowedBookManagementController implements Initializable {
     private TextField txtEmployeeName;
 
     @FXML
-    private TextField txtFine;
+    private TextField txtTotalFines;
 
     @FXML
-    private TextField txtReaderCardId;
+    private TextField txtBorrowedCardId2;
 
     @FXML
     private TextField txtReaderName;
@@ -275,46 +276,53 @@ public class BorrowedBookManagementController implements Initializable {
             this.clearBorrowedCardDetails();
             Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Mượn sách thất bại", "Vui lòng chọn mã thẻ mượn!");
         } else {
-            if (this.txtBookId.getText().equals(this.bookIdTemp) && this.txtStatus.getText().equals("Sẵn sàng")) {
-                BorrowedCard borrowedCard = new BorrowedCard();
-                borrowedCard.setBorrowedCardId(this.txtBorrowedCardId.getText());
-                borrowedCard.setReaderCard(this.cbxReaderCardId.getSelectionModel().getSelectedItem());
-                borrowedCard.setEmployee(LoginController.user.getEmployee());
-                borrowedCard.setBorrowedDate(Date.from(this.dpkBorrowedDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-                Book book = new Book();
-                book.setBookId(this.txtBookId.getText());
-                book.setStatus(this.txtStatus.getText());
-                BorrowedCardDetails borrowedCardDetails = new BorrowedCardDetails();
-                borrowedCardDetails.setBorrowedCard(borrowedCard);
-                borrowedCardDetails.setBook(book);
-                borrowedCardDetails.setReturned(false);
-                borrowedCardDetails.setReturnedDate(null);
-                try {
-                    BorrowedBookManagementServices.borrowBook(borrowedCardDetails);
-                    BorrowedBookManagementServices.updateBookStatus(this.txtBookId.getText(), "Đang mượn");
+            if (this.tbvBorrowedCardDetails.getItems().stream().filter(borrowedCardDetails -> borrowedCardDetails.isReturned()).count() != 0) {
+                this.txtBookId.clear();
+                this.txtStatus.clear();
+                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Mượn sách thất bại", "Thẻ mượn này đã được sử dụng!");
+            } else {
+                if (this.txtBookId.getText().equals(this.bookIdTemp) && this.txtStatus.getText().equals("Sẵn sàng")) {
+                    BorrowedCard borrowedCard = new BorrowedCard();
+                    borrowedCard.setBorrowedCardId(this.txtBorrowedCardId.getText());
+                    borrowedCard.setReaderCard(this.cbxReaderCardId.getSelectionModel().getSelectedItem());
+                    borrowedCard.setEmployee(LoginController.user.getEmployee());
+                    borrowedCard.setBorrowedDate(Date.from(this.dpkBorrowedDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                    Book book = new Book();
+                    book.setBookId(this.txtBookId.getText());
+                    book.setStatus(this.txtStatus.getText());
+                    BorrowedCardDetails borrowedCardDetails = new BorrowedCardDetails();
+                    borrowedCardDetails.setBorrowedCard(borrowedCard);
+                    borrowedCardDetails.setBook(book);
+                    borrowedCardDetails.setReturned(false);
+                    borrowedCardDetails.setReturnedDate(null);
+                    borrowedCardDetails.setFine(0.00);
+                    try {
+                        BorrowedBookManagementServices.borrowBook(borrowedCardDetails);
+                        BorrowedBookManagementServices.updateBookStatus(this.txtBookId.getText(), "Đang mượn");
+                        this.txtBookId.clear();
+                        this.txtStatus.clear();
+                        this.loadBorrowedCardDetailsTableData(this.tbvBorrowedCard.getSelectionModel().getSelectedItem().getBorrowedCardId());
+                        Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Mượn sách thành công", "");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        this.txtBookId.clear();
+                        this.txtStatus.clear();
+                        Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Mượn sách thất bại", "Mã sách đã tồn tại!");
+                    } catch (UnknownError e) {
+                        e.printStackTrace();
+                        this.txtBookId.clear();
+                        this.txtStatus.clear();
+                        Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Mượn sách thất bại", "Chỉ được mượn tối đa 5 quyển sách!");
+                    }
+                } else if (!this.txtBookId.getText().equals(this.bookIdTemp)) {
                     this.txtBookId.clear();
                     this.txtStatus.clear();
-                    this.loadBorrowedCardDetailsTableData(this.tbvBorrowedCard.getSelectionModel().getSelectedItem().getBorrowedCardId());
-                    Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Mượn sách thành công", "");
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Mượn sách thất bại", "Mã sách không hợp lệ!");
+                } else if (!this.txtStatus.getText().equals("Sẵn sàng")) {
                     this.txtBookId.clear();
                     this.txtStatus.clear();
-                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Mượn sách thất bại", "Mã sách đã tồn tại!");
-                } catch (UnknownError e) {
-                    e.printStackTrace();
-                    this.txtBookId.clear();
-                    this.txtStatus.clear();
-                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Mượn sách thất bại", "Chỉ được mượn tối đa 5 quyển sách!");
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Mượn sách thất bại", "Sách không ở trạng thái sẵn sàng!");
                 }
-            } else if (!this.txtBookId.getText().equals(this.bookIdTemp)) {
-                this.txtBookId.clear();
-                this.txtStatus.clear();
-                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Mượn sách thất bại", "Mã sách không hợp lệ!");
-            } else if (!this.txtStatus.getText().equals("Sẵn sàng")) {
-                this.txtBookId.clear();
-                this.txtStatus.clear();
-                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Mượn sách thất bại", "Sách không ở trạng thái sẵn sàng!");
             }
         }
 
@@ -336,17 +344,117 @@ public class BorrowedBookManagementController implements Initializable {
 
     @FXML
     void checkReaderCardHandler(ActionEvent event) {
-
+        if (this.txtBorrowedCardId2.getText().equals("")) {
+            this.dpkReturnedDate.setValue(null);
+            this.clearBorrowedCardDetails2();
+            Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Kiểm tra thẻ thất bại", "Vui lòng nhập mã thẻ mượn!");
+        } else {
+            try {
+                if (BorrowedBookManagementServices.isBorrowedCardExist(this.txtBorrowedCardId2.getText())) {
+                    this.dpkReturnedDate.setValue(null);
+                    this.clearBorrowedCardDetails2();
+                    this.loadBorrowedCardDetails2Data(this.txtBorrowedCardId2.getText());
+                    this.loadReturnBookTableData(this.txtBorrowedCardId2.getText());
+                } else {
+                    this.txtBorrowedCardId2.clear();
+                    this.dpkReturnedDate.setValue(null);
+                    this.clearBorrowedCardDetails2();
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Kiểm tra thẻ thất bại", "Không tìm thấy mã thẻ mượn!");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
-    void returnBookHandler(ActionEvent event) {
-
+    void returnBookHandler(ActionEvent event) throws SQLException {
+        BorrowedCardDetails selectedBorrowedCardDetails = this.tbvBorrowedCardDetails2.getSelectionModel().getSelectedItem();
+        if (selectedBorrowedCardDetails == null) {
+            this.txtBookId2.clear();
+            this.dpkReturnedDate.setValue(null);
+            this.txtTotalFines.clear();
+            Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Trả sách thất bại", "Vui lòng chọn mã sách!");
+        } else {
+            if (this.dpkReturnedDate.getValue() == null)
+                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Trả sách thất bại", "Vui lòng nhập ngày trả sách!");
+            else {
+                try {
+                    selectedBorrowedCardDetails.setReturned(true);
+                    selectedBorrowedCardDetails.setReturnedDate(Date.from(this.dpkReturnedDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                    BorrowedBookManagementServices.returnBook(selectedBorrowedCardDetails, ReturnType.RETURNED_BOOK);
+                    BorrowedBookManagementServices.updateBookStatus(selectedBorrowedCardDetails.getBook().getBookId(), "Sẵn sàng");
+                    this.clearBorrowedCardDetails2();
+                    this.loadBorrowedCardDetails2Data(this.txtBorrowedCardId2.getText());
+                    this.loadReturnBookTableData(this.txtBorrowedCardId2.getText());
+                    Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Trả sách thành công", "");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (DateTimeException e) {
+                    e.printStackTrace();
+                    this.clearBorrowedCardDetails2();
+                    this.loadBorrowedCardDetails2Data(this.txtBorrowedCardId2.getText());
+                    this.loadReturnBookTableData(this.txtBorrowedCardId2.getText());
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Trả sách thất bại", "Ngày mượn sách không hợp lệ!");
+                }
+            }
+        }
     }
 
     @FXML
-    void lostBookHandler(ActionEvent event) {
+    void lostBookHandler(ActionEvent event) throws SQLException {
+        BorrowedCardDetails selectedBorrowedCardDetails = this.tbvBorrowedCardDetails2.getSelectionModel().getSelectedItem();
+        if (selectedBorrowedCardDetails == null) {
+            this.txtBookId2.clear();
+            this.dpkReturnedDate.setValue(null);
+            this.txtTotalFines.clear();
+            Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Báo mất sách thất bại", "Vui lòng chọn mã sách!");
+        } else {
+            if (this.dpkReturnedDate.getValue() == null)
+                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Báo mất sách thất bại", "Vui lòng nhập ngày trả sách!");
+            else {
+                try {
+                    selectedBorrowedCardDetails.setReturned(true);
+                    selectedBorrowedCardDetails.setReturnedDate(Date.from(this.dpkReturnedDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                    BorrowedBookManagementServices.returnBook(selectedBorrowedCardDetails, ReturnType.LOST_BOOK);
+                    BorrowedBookManagementServices.updateBookStatus(selectedBorrowedCardDetails.getBook().getBookId(), "Mất sách");
+                    this.clearBorrowedCardDetails2();
+                    this.loadBorrowedCardDetails2Data(this.txtBorrowedCardId2.getText());
+                    this.loadReturnBookTableData(this.txtBorrowedCardId2.getText());
+                    Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Báo mất sách thành công", "");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (DateTimeException e) {
+                    e.printStackTrace();
+                    this.clearBorrowedCardDetails2();
+                    this.loadBorrowedCardDetails2Data(this.txtBorrowedCardId2.getText());
+                    this.loadReturnBookTableData(this.txtBorrowedCardId2.getText());
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Báo mất sách thất bại", "Ngày mượn sách không hợp lệ!");
+                }
+            }
+        }
+    }
 
+    @FXML
+    void calculateFinesHandler(ActionEvent event) throws SQLException {
+        if (this.txtBorrowedCardId2.getText().equals("")) {
+            this.dpkReturnedDate.setValue(null);
+            this.clearBorrowedCardDetails2();
+            Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Tính tiền phạt thất bại", "Vui lòng nhập mã thẻ mượn!");
+        } else {
+            if (BorrowedBookManagementServices.isBorrowedCardExist(this.txtBorrowedCardId2.getText())) {
+                if (this.dpkReturnedDate.getValue() == null)
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Tính tiền phạt thất bại", "Vui lòng nhập ngày trả sách!");
+                else {
+                    this.txtTotalFines.setText(Utils.currencyFormat(BorrowedBookManagementServices.getTotalFines(this.txtBorrowedCardId2.getText(), Date.from(this.dpkReturnedDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant())), new Locale("vi", "VN")));
+                }
+            } else {
+                this.txtBorrowedCardId2.clear();
+                this.dpkReturnedDate.setValue(null);
+                this.clearBorrowedCardDetails2();
+                Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Tính tiền phạt thất bại", "Không tìm thấy mã thẻ mượn!");
+            }
+        }
     }
 
     @FXML
@@ -365,7 +473,9 @@ public class BorrowedBookManagementController implements Initializable {
 
     @FXML
     void clickBorrowedCardDetailsHandler(MouseEvent event) {
-
+        BorrowedCardDetails selectedBorrowedCardDetails = this.tbvBorrowedCardDetails2.getSelectionModel().getSelectedItem();
+        if (selectedBorrowedCardDetails == null) return;
+        this.txtBookId2.setText(selectedBorrowedCardDetails.getBook().getBookId());
     }
 
     @FXML
@@ -382,6 +492,18 @@ public class BorrowedBookManagementController implements Initializable {
             this.txtReaderName.setText(this.cbxReaderCardId.getSelectionModel().getSelectedItem().getReader().getReaderName());
             this.txtEmployeeId.setText(LoginController.user.getEmployee().getEmployeeId());
             this.txtEmployeeName.setText(LoginController.user.getEmployee().getEmployeeName());
+            this.tpBorrowedBook.getSelectionModel().selectedItemProperty().addListener(((ov, oldValue, newValue) -> {
+                try {
+                    this.txtBorrowedCardSearch.clear();
+                    this.clearBorrowedCardDetails();
+                    this.loadBorrowedCardTableData(null);
+                    this.txtBorrowedCardId2.clear();
+                    this.dpkReturnedDate.setValue(null);
+                    this.clearBorrowedCardDetails2();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -415,5 +537,31 @@ public class BorrowedBookManagementController implements Initializable {
 
     public boolean isBorrowedCardEmpty() {
         return this.txtBorrowedCardId.getText().equals("") || this.dpkBorrowedDate.getValue() == null;
+    }
+
+    public void clearBorrowedCardDetails2() {
+        this.txtBookId2.clear();
+        this.txtTotalFines.clear();
+        this.tbvBorrowedCardDetails2.setItems(null);
+        this.tbvReturnedBook.setItems(null);
+    }
+
+    public void loadBorrowedCardDetails2Data(String borrowedCardId) throws SQLException {
+        this.colBorrowedCardId2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBorrowedCard().getBorrowedCardId()));
+        this.colBookId2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBook().getBookId()));
+        this.colBookName2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBook().getBookName()));
+        this.colBorrowedDate2.setCellValueFactory(e -> new SimpleObjectProperty<>(e.getValue().getBorrowedCard().getBorrowedDate()));
+        this.colStatus2.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBook().getStatus()));
+        this.tbvBorrowedCardDetails2.setItems(FXCollections.observableArrayList(BorrowedBookManagementServices.getBorrowedCardDetailsListByBorrowedCardId(borrowedCardId, true)));
+    }
+
+    public void loadReturnBookTableData(String borrowedCardId) throws SQLException {
+        this.colBorrowedCardId3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBorrowedCard().getBorrowedCardId()));
+        this.colBookId3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBook().getBookId()));
+        this.colBookName3.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getBook().getBookName()));
+        this.colBorrowedDate3.setCellValueFactory(e -> new SimpleObjectProperty<>(e.getValue().getBorrowedCard().getBorrowedDate()));
+        this.colReturnedDate2.setCellValueFactory(e -> new SimpleObjectProperty<>(e.getValue().getReturnedDate()));
+        this.colFine.setCellValueFactory(e -> new SimpleStringProperty(Utils.currencyFormat(e.getValue().getFine(), new Locale("vi", "VN"))));
+        this.tbvReturnedBook.setItems(FXCollections.observableArrayList(BorrowedBookManagementServices.getBorrowedCardDetailsListByBorrowedCardId(borrowedCardId, false)));
     }
 }

@@ -7,8 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.DateTimeException;
+import java.text.SimpleDateFormat;
+import java.time.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BorrowedBookManagementServices {
@@ -98,6 +100,7 @@ public class BorrowedBookManagementServices {
                 borrowedCardDetails.setBook(book);
                 borrowedCardDetails.setReturned(rs.getBoolean("IsReturned"));
                 borrowedCardDetails.setReturnedDate(rs.getDate("ReturnedDate"));
+                borrowedCardDetails.setFine(rs.getDouble("Fine"));
                 borrowedCardDetailsList.add(borrowedCardDetails);
             }
         }
@@ -188,11 +191,12 @@ public class BorrowedBookManagementServices {
         if (getBorrowedBooksNumberByReaderCardId(borrowedCardDetails.getBorrowedCard().getReaderCard().getReaderCardId()) >= 5)
             throw new UnknownError();
         try (Connection connection = JDBCUtils.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO borrowed_card_detail VALUES (?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO borrowed_card_detail VALUES (?,?,?,?,?)");
             ps.setString(1, borrowedCardDetails.getBorrowedCard().getBorrowedCardId());
             ps.setString(2, borrowedCardDetails.getBook().getBookId());
             ps.setBoolean(3, borrowedCardDetails.isReturned());
             ps.setDate(4, null);
+            ps.setDouble(5, borrowedCardDetails.getFine());
             ps.executeUpdate();
         }
     }
@@ -204,5 +208,84 @@ public class BorrowedBookManagementServices {
             ps.setString(2, bookId);
             ps.executeUpdate();
         }
+    }
+
+    public static List<BorrowedCardDetails> getBorrowedCardDetailsListByBorrowedCardId(String borrowedCardId, boolean isBorrowing) throws SQLException {
+        List<BorrowedCardDetails> borrowedCardDetailsList = new ArrayList<>();
+        try (Connection connection = JDBCUtils.getConnection()) {
+            String sqlQuery = "SELECT bcd.*, bc.*, b.*, rc.* FROM borrowed_card_detail bcd, borrowed_card bc, book b, reader_card rc WHERE bcd.BorrowedCardId = bc.BorrowedCardId AND bcd.BookId = b.BookId AND bc.ReaderCardId = rc.ReaderCardId AND bc.BorrowedCardId = ?";
+            if (isBorrowing)
+                sqlQuery += " AND Status = 'Đang mượn'";
+            PreparedStatement ps = connection.prepareStatement(sqlQuery);
+            ps.setString(1, borrowedCardId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                BorrowedCardDetails borrowedCardDetails = new BorrowedCardDetails();
+                BorrowedCard borrowedCard = new BorrowedCard();
+                borrowedCard.setBorrowedCardId(rs.getString("bcd.BorrowedCardId"));
+                borrowedCard.setBorrowedDate(rs.getDate("BorrowedDate"));
+                borrowedCardDetails.setBorrowedCard(borrowedCard);
+                Book book = new Book();
+                book.setBookId(rs.getString("BookId"));
+                book.setBookName(rs.getString("BookName"));
+                book.setStatus(rs.getString("Status"));
+                borrowedCardDetails.setBook(book);
+                borrowedCardDetails.setReturned(rs.getBoolean("IsReturned"));
+                borrowedCardDetails.setReturnedDate(rs.getDate("ReturnedDate"));
+                borrowedCardDetails.setFine(rs.getDouble("Fine"));
+                borrowedCardDetailsList.add(borrowedCardDetails);
+            }
+        }
+        return borrowedCardDetailsList;
+    }
+
+    public static boolean isBorrowedCardExist(String borrowedCardId) throws SQLException {
+        try (Connection connection = JDBCUtils.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM borrowed_card WHERE BorrowedCardId = ?");
+            ps.setString(1, borrowedCardId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return true;
+        }
+        return false;
+    }
+
+    public static void returnBook(BorrowedCardDetails borrowedCardDetails, ReturnType returnType) throws SQLException {
+        if (borrowedCardDetails.getBorrowedCard().getBorrowedDate().compareTo(borrowedCardDetails.getReturnedDate()) >= 0)
+            throw new DateTimeException("Invalid Date");
+        try (Connection connection = JDBCUtils.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("UPDATE borrowed_card_detail SET IsReturned = ?, ReturnedDate = ?, Fine = ? WHERE BorrowedCardId = ? AND BookId = ?");
+            ps.setBoolean(1, borrowedCardDetails.isReturned());
+            ps.setDate(2, new java.sql.Date(borrowedCardDetails.getReturnedDate().getTime()));
+            if (returnType == ReturnType.RETURNED_BOOK) {
+                ZonedDateTime borrowedDate = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(borrowedCardDetails.getBorrowedCard().getBorrowedDate())).atStartOfDay(ZoneId.systemDefault());
+                ZonedDateTime expectedReturnDate = borrowedDate.plusDays(30);
+                ZonedDateTime actualReturnDate = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(borrowedCardDetails.getReturnedDate())).atStartOfDay(ZoneId.systemDefault());
+                if (actualReturnDate.compareTo(expectedReturnDate) <= 0)
+                    ps.setDouble(3, 0);
+                else {
+                    Duration duration = Duration.between(expectedReturnDate, actualReturnDate);
+                    int differentDayNumber = (int) duration.toDays();
+                    ps.setDouble(3, differentDayNumber * 5000);
+                }
+            } else {
+                ps.setDouble(3, 100000);
+            }
+            ps.setString(4, borrowedCardDetails.getBorrowedCard().getBorrowedCardId());
+            ps.setString(5, borrowedCardDetails.getBook().getBookId());
+            ps.executeUpdate();
+        }
+    }
+
+    public static double getTotalFines(String borrowedCardId, Date returnedDate) throws SQLException {
+        try (Connection connection = JDBCUtils.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("SELECT sum(Fine) AS TotalFines FROM borrowed_card_detail WHERE BorrowedCardId = ? AND ReturnedDate = ?");
+            ps.setString(1, borrowedCardId);
+            ps.setDate(2, new java.sql.Date(returnedDate.getTime()));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("TotalFines");
+            }
+        }
+        return -1;
     }
 }
