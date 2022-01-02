@@ -322,7 +322,9 @@ public class ReaderManagementController implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
                 this.clearReaderCardDetails();
-                if (e.getMessage().contains("PRIMARY"))
+                if (e.getErrorCode() == 1451)
+                    Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Sửa thẻ độc giả thất bại", "Mã thẻ độc giả đang được liên kết!");
+                else if (e.getMessage().contains("PRIMARY"))
                     Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Sửa thẻ độc giả thất bại", "Mã thẻ độc giả mới đã tồn tại!");
                 else
                     Utils.showAlert(Alert.AlertType.ERROR, "Thông báo", "Sửa thẻ độc giả thất bại", "Mã độc giả mới đã tồn tại!");
@@ -360,6 +362,7 @@ public class ReaderManagementController implements Initializable {
 
     @FXML
     void showReaderNameHandler(ActionEvent event) {
+        if (this.cbxReaderId.getSelectionModel().getSelectedItem() == null) return;
         this.txtReaderName2.setText(this.cbxReaderId.getSelectionModel().getSelectedItem().getReaderName());
     }
 

@@ -65,8 +65,17 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    void reportHandler(ActionEvent event) {
-
+    void reportHandler(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.close();
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("report.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setTitle("Quản lý thư viện | Báo cáo");
+        stage.show();
     }
 
     @Override

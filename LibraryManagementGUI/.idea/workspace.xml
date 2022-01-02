@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="842ce5e7-7aeb-43e5-ae89-00ee31b14480" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/ReportController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pojo/BookReport.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pojo/ReaderReport.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/services/ReportServices.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/file_48px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/images/print_48px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/report.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pojo/BorrowedCardDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pojo/BorrowedCardDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ReaderManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ReaderManagementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,8 +24,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="FxmlFile" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -30,7 +40,9 @@
     </option>
   </component>
   <component name="ProjectId" id="22mAnXjg8vsZjiNG832r3xxj5oz" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -40,13 +52,15 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/images" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\pc\Desktop\LibraryManagementGithub\LibraryManagementProject\LibraryManagementGUI\src\main\resources\images" />
+      <recent name="C:\Users\pc\Desktop\LibraryManagementGithub\LibraryManagementProject\LibraryManagementGUI\src\main\resources\org\example" />
       <recent name="D:\KiemThuPhanMem_ThucHanh\LibraryManagement_V2_Github\LibraryManagementProject\LibraryManagementGUI\src\main\resources\images" />
       <recent name="C:\Users\pc\Desktop\LibraryManagementGUI\src\main\resources\images" />
       <recent name="C:\Users\pc\Desktop\LibraryManagementGUI\src\main\resources\org\example" />
-      <recent name="C:\Users\pc\Desktop\LibraryManagementGUI\src\main\resources\inages" />
     </key>
   </component>
   <component name="RunManager">
@@ -94,26 +108,30 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="223" y="70" width="1089" height="721" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1640435330564" />
-    <state x="958" y="134" key="#com.intellij.ide.util.MemberChooser" timestamp="1640960743862">
+    <state x="958" y="134" key="#com.intellij.ide.util.MemberChooser" timestamp="1641111153152">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="958" y="134" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1640960743862" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1640961052006">
+    <state x="958" y="134" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1641111153152" />
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1641125278245">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1640961052006" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1640961052006">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1641125278245" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1641125278245">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1640961052006" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1640961052006">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1641125278245" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1641125278245">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1640961052006" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1640961052006">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1641125278245" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1641125278245">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1640961052006" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1641125278245" />
+    <state x="279" y="57" key="SettingsEditor" timestamp="1641110148987">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="279" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1641110148987" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1640943953284">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
