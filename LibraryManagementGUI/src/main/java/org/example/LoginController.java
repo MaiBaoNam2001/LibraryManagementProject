@@ -66,8 +66,17 @@ public class LoginController {
     }
 
     @FXML
-    void registerHandler(ActionEvent event) {
-
+    void registerHandler(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.close();
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("register.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setTitle("Quản lý thư viện | Đăng ký tài khoản");
+        stage.show();
     }
 
 }

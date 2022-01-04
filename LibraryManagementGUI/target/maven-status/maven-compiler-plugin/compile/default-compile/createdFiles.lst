@@ -1,3 +1,4 @@
+org\example\ChangePasswordController.class
 org\example\PrimaryController.class
 org\example\BookManagementController.class
 services\ReaderManagementServices.class
@@ -8,8 +9,10 @@ pojo\Employee.class
 pojo\ReaderReport.class
 org\example\SecondaryController.class
 configs\JDBCUtils.class
+org\example\EmployeeManagementController.class
 org\example\ReaderManagementController.class
 pojo\BorrowedCardDetails.class
+services\RegisterServices.class
 org\example\ReportController.class
 services\BorrowedBookManagementServices.class
 org\example\BorrowedBookManagementController.class
@@ -17,12 +20,15 @@ pojo\User.class
 module-info.class
 pojo\ReaderCard.class
 pojo\Reader.class
+org\example\RegisterController.class
 services\LoginServices.class
 pojo\BorrowedCard.class
 org\example\LoginController.class
 pojo\ReturnType.class
 services\BookManagementServices.class
+services\EmployeeManagementServices.class
 org\example\HomeController.class
 configs\Utils.class
 pojo\BookReport.class
 pojo\Title.class
+services\ChangePasswordServices.class

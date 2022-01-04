@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -21,6 +22,9 @@ public class HomeController implements Initializable {
 
     @FXML
     private TextField txtRole;
+
+    @FXML
+    private Button btnEmployeeManagement;
 
     @FXML
     void bookManagementHandler(ActionEvent event) throws IOException {
@@ -78,9 +82,54 @@ public class HomeController implements Initializable {
         stage.show();
     }
 
+    @FXML
+    void employeeManagementHandler(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.close();
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("employee_management.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setTitle("Quản lý thư viện | Quản lý nhân viên");
+        stage.show();
+    }
+
+    @FXML
+    void logOutHandler(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.close();
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("login.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setTitle("Quản lý thư viện | Đăng nhập");
+        stage.show();
+    }
+
+    @FXML
+    void changePasswordHandler(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.close();
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("change_password.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setTitle("Quản lý thư viện | Đổi mật khẩu");
+        stage.show();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.txtEmployeeName.setText(LoginController.user.getEmployee().getEmployeeName());
         this.txtRole.setText(LoginController.user.getRole());
+        if (this.txtRole.getText().equals("Admin"))
+            this.btnEmployeeManagement.setDisable(false);
+        else this.btnEmployeeManagement.setDisable(true);
     }
 }
