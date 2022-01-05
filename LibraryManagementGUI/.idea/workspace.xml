@@ -2,30 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="842ce5e7-7aeb-43e5-ae89-00ee31b14480" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/ChangePasswordController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/EmployeeManagementController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/RegisterController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/services/ChangePasswordServices.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/services/EmployeeManagementServices.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/services/RegisterServices.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/commercial_development_management_48px.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/export_48px.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/key_48px.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/images/synchronize_48px.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/change_password.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/employee_management.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/register.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pojo/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pojo/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/home.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/login.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/home.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/BorrowedBookManagementServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/BorrowedBookManagementServices.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +42,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/org/example" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
@@ -124,22 +103,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="958" y="134" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1641288006847" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1641301327605">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1641399476936">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1641301327605" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1641301327605">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1641399476936" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1641399476936">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1641301327605" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1641301327605">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1641399476936" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1641399476936">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1641301327605" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1641301327605">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1641399476936" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1641399476936">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1641301327605" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1641399476936" />
     <state x="279" y="57" key="SettingsEditor" timestamp="1641110148987">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

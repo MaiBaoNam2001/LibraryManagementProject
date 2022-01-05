@@ -215,7 +215,7 @@ public class BorrowedBookManagementServices {
         try (Connection connection = JDBCUtils.getConnection()) {
             String sqlQuery = "SELECT bcd.*, bc.*, b.*, rc.* FROM borrowed_card_detail bcd, borrowed_card bc, book b, reader_card rc WHERE bcd.BorrowedCardId = bc.BorrowedCardId AND bcd.BookId = b.BookId AND bc.ReaderCardId = rc.ReaderCardId AND bc.BorrowedCardId = ?";
             if (isBorrowing)
-                sqlQuery += " AND Status = 'Đang mượn'";
+                sqlQuery += " AND IsReturned = false AND Status = 'Đang mượn'";
             PreparedStatement ps = connection.prepareStatement(sqlQuery);
             ps.setString(1, borrowedCardId);
             ResultSet rs = ps.executeQuery();
