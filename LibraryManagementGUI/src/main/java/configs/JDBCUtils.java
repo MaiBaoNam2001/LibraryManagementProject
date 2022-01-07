@@ -14,6 +14,6 @@ public class JDBCUtils {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3360/library_management_v2_db", "root", "namprozzx2001");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/library_management_v2_db", "root", "giabao2020");
     }
 }
