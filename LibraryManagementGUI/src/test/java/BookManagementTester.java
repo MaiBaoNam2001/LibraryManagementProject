@@ -1,6 +1,4 @@
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import pojo.Book;
 import pojo.Title;
 import services.BookManagementServices;
@@ -16,6 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookManagementTester {
     private static Title validTitle1;
     private static Title validTitle2;
@@ -42,8 +41,8 @@ public class BookManagementTester {
         invalidBook2 = new Book("B00024", "Dế mèn phiêu lưu ký", "...", 1941, new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-12"), 24, "Sẵn sàng", validTitle2);
     }
 
-    // Search title by keyword
     @Test
+    @Order(1)
     @Tag("Title")
     public void testGetTitleListByTitleId() throws SQLException {
         List<Title> titleList = BookManagementServices.getTitleListByKeyword("T00001");
@@ -55,6 +54,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(2)
     @Tag("Title")
     public void testGetTitleListByTitleName() throws SQLException {
         List<Title> titleList = BookManagementServices.getTitleListByKeyword("Mắt biếc");
@@ -66,6 +66,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(3)
     @Tag("Title")
     public void testGetTitleListByAuthorName() throws SQLException {
         List<Title> titleList = BookManagementServices.getTitleListByKeyword("Nguyễn Nhật Ánh");
@@ -76,34 +77,37 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(4)
     @Tag("Title")
     public void testGetTitleByCategory() throws SQLException {
         List<Title> titleList = BookManagementServices.getTitleListByKeyword("Thiếu nhi");
         assertNotNull(titleList);
-        assertEquals(3, titleList.size());
-        assertEquals("Shin - Cậu bé bút chì", titleList.get(1).getTitleName());
-        assertEquals("Tô Hoài", titleList.get(2).getAuthor());
+        assertEquals(2, titleList.size());
+        assertEquals("Doraemon", titleList.get(0).getTitleName());
+        assertEquals("Yoshito Usui", titleList.get(1).getAuthor());
     }
 
     @Test
+    @Order(5)
     @Tag("Title")
     public void testGetTitleByNull() throws SQLException {
         List<Title> titleList = BookManagementServices.getTitleListByKeyword(null);
         assertNotNull(titleList);
-        assertEquals(7, titleList.size());
+        assertEquals(6, titleList.size());
         assertEquals(23, titleList.stream().mapToInt(value -> value.getQuantity()).sum());
-        assertEquals(3, titleList.stream().filter(title -> title.getCategory().equals("Thiếu nhi")).count());
+        assertEquals(3, titleList.stream().filter(title -> title.getCategory().equals("Tiểu thuyết")).count());
     }
 
     @Test
+    @Order(6)
     @Tag("Title")
     public void testGetTitleByInvalidKeyword() throws SQLException {
         List<Title> titleList = BookManagementServices.getTitleListByKeyword("Xuân Quỳnh");
         assertEquals(0, titleList.size());
     }
 
-    // Add title
     @Test
+    @Order(7)
     @Tag("Title")
     public void testAddValidTitle() throws SQLException {
         BookManagementServices.addTitle(validTitle1);
@@ -115,6 +119,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(8)
     @Tag("Title")
     public void testAddInvalidTitle() throws SQLException {
         assertThrows(SQLIntegrityConstraintViolationException.class, () -> {
@@ -124,8 +129,8 @@ public class BookManagementTester {
         assertEquals(0, titleList.size());
     }
 
-    // Delete title
     @Test
+    @Order(9)
     @Tag("Title")
     public void testDeleteValidTitle() throws SQLException {
         BookManagementServices.deleteTitle(validTitle1.getTitleId());
@@ -137,6 +142,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(10)
     @Tag("Title")
     public void testDeleteInvalidTitle() throws SQLException {
         assertThrows(SQLIntegrityConstraintViolationException.class, () -> {
@@ -146,11 +152,11 @@ public class BookManagementTester {
         assertEquals(1, titleList.size());
     }
 
-    // Edit title
     @Test
+    @Order(11)
     @Tag("Title")
     public void testEditValidTitle() throws SQLException {
-        BookManagementServices.editTitle("T00005", validTitle1);
+        BookManagementServices.editTitle("T00009", validTitle1);
         List<Title> titleList = BookManagementServices.getTitleListByKeyword(validTitle1.getTitleId());
         assertEquals(1, titleList.size());
         assertEquals(validTitle1.getTitleId(), titleList.get(0).getTitleId());
@@ -159,6 +165,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(12)
     @Tag("Title")
     public void testEditInvalidTitle() throws SQLException {
         assertThrows(SQLIntegrityConstraintViolationException.class, () -> {
@@ -169,24 +176,18 @@ public class BookManagementTester {
         assertEquals("T00001", titleList1.get(0).getTitleId());
         assertEquals("Tôi thấy hoa vàng trên cỏ xanh", titleList1.get(0).getTitleName());
         assertEquals("Nguyễn Nhật Ánh", titleList1.get(0).getAuthor());
-        List<Title> titleList2 = BookManagementServices.getTitleListByKeyword("T00003");
         assertThrows(SQLIntegrityConstraintViolationException.class, () -> {
-            BookManagementServices.editTitle("T00010", titleList2.get(0));
+            BookManagementServices.editTitle(validTitle1.getTitleId(), invalidTitle);
         });
-        List<Title> titleList3 = BookManagementServices.getTitleListByKeyword("T00010");
+        List<Title> titleList3 = BookManagementServices.getTitleListByKeyword(validTitle1.getTitleId());
         assertEquals(1, titleList3.size());
-        assertEquals("T00010", titleList3.get(0).getTitleId());
-        assertEquals("Dế mèn phiêu lưu ký", titleList3.get(0).getTitleName());
-        assertEquals("Nhà xuất bản báo Tân Dân", titleList3.get(0).getPublisher());
+        assertEquals(validTitle1.getTitleId(), titleList3.get(0).getTitleId());
+        assertEquals(validTitle1.getTitleName(), titleList3.get(0).getTitleName());
+        assertEquals(validTitle1.getPublisher(), titleList3.get(0).getPublisher());
     }
 
-    // Update book name
-    public void testUpdateBookName() {
-
-    }
-
-    //Search book by keyword
     @Test
+    @Order(13)
     @Tag("Book")
     public void testGetBookByBookId() throws SQLException {
         List<Book> bookList = BookManagementServices.getBookListByKeyword("B00006");
@@ -199,6 +200,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(14)
     @Tag("Book")
     public void testGetBookByBookName() throws SQLException {
         List<Book> bookList = BookManagementServices.getBookListByKeyword("Harry Potter");
@@ -212,6 +214,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(15)
     @Tag("Book")
     public void testGetBookListByPublishingYear() throws SQLException {
         List<Book> bookList = BookManagementServices.getBookListByKeyword("2000");
@@ -223,6 +226,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(16)
     @Tag("Book")
     public void testGetBookListByNull() throws SQLException {
         List<Book> bookList = BookManagementServices.getBookListByKeyword(null);
@@ -235,18 +239,15 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(17)
     @Tag("Book")
     public void testGetBookListByInvalidKeyword() throws SQLException {
         List<Book> bookList = BookManagementServices.getBookListByKeyword("Đoàn binh Tây Tiến");
         assertEquals(0, bookList.size());
     }
 
-    //Update title quantity
-//    public void testUpdateTitleQuantity(){
-//
-//    }
-    //Add book
     @Test
+    @Order(18)
     @Tag("Book")
     public void testAddValidBook() {
         validBookList.forEach(book -> {
@@ -266,6 +267,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(19)
     @Tag("Book")
     public void testAddInvalidBook() throws SQLException {
         assertThrows(SQLIntegrityConstraintViolationException.class, () -> {
@@ -276,6 +278,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(20)
     @Tag("Book")
     public void testDeleteValidBook() throws SQLException {
         BookManagementServices.deleteBook(validBookList.get(1).getBookId());
@@ -287,6 +290,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(21)
     @Tag("Book")
     public void testDeleteInvalidBook() throws SQLException {
         assertThrows(SQLIntegrityConstraintViolationException.class, () -> {
@@ -302,6 +306,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(22)
     @Tag("Book")
     public void testEditValidBook() throws SQLException {
         BookManagementServices.editBook(validBookList.get(0).getBookId(), validBook);
@@ -314,6 +319,7 @@ public class BookManagementTester {
     }
 
     @Test
+    @Order(23)
     @Tag("Book")
     public void testEditInvalidBook() throws SQLException {
         assertThrows(SQLIntegrityConstraintViolationException.class, () -> {
@@ -321,8 +327,8 @@ public class BookManagementTester {
         });
     }
 
-    // Update title quantity
     @Test
+    @Order(24)
     @Tag("Book")
     public void testUpdateValidTitleQuantity() throws SQLException {
         BookManagementServices.updateTitleQuantity("T00003", 5);
