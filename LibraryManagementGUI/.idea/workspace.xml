@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="842ce5e7-7aeb-43e5-ae89-00ee31b14480" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/ReaderManagementTester.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/BorrowedBookManagementTester.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,6 +24,10 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/test/java/ReaderManagementTester.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test/java/BookManagementTester.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -53,22 +57,12 @@
       <recent name="C:\Users\pc\Desktop\LibraryManagementGUI\src\main\resources\org\example" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.BookManagementTester">
+  <component name="RunManager" selected="JUnit.BorrowedBookManagementTester">
     <configuration name="BookManagementTester" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LibraryManagementGUI" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="BookManagementTester" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BookManagementTester.testGetBookByBookName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="LibraryManagementGUI" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="BookManagementTester" />
-      <option name="METHOD_NAME" value="testGetBookByBookName" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -93,12 +87,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BookManagementTester.testGetBookListByPublishingYear" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BorrowedBookManagementTester" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LibraryManagementGUI" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="BookManagementTester" />
-      <option name="METHOD_NAME" value="testGetBookListByPublishingYear" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="BorrowedBookManagementTester" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReaderManagementTester" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="LibraryManagementGUI" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ReaderManagementTester" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -130,11 +132,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.BorrowedBookManagementTester" />
+        <item itemvalue="JUnit.ReaderManagementTester" />
         <item itemvalue="JUnit.BookManagementTester" />
         <item itemvalue="JUnit.BookManagementTester.testGetBookListByInvalidKeyword" />
         <item itemvalue="JUnit.BookManagementTester.testGetBookListByNull" />
-        <item itemvalue="JUnit.BookManagementTester.testGetBookListByPublishingYear" />
-        <item itemvalue="JUnit.BookManagementTester.testGetBookByBookName" />
       </list>
     </recent_temporary>
   </component>
@@ -167,5 +169,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/BookManagementTester.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
