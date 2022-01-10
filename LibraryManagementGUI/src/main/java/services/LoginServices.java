@@ -1,6 +1,7 @@
 package services;
 
 import configs.JDBCUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import pojo.Employee;
 import pojo.User;
 
@@ -15,7 +16,7 @@ public class LoginServices {
         try (Connection connection = JDBCUtils.getConnection()) {
             PreparedStatement ps = connection.prepareStatement("SELECT e.*, u.* FROM employee e, user u WHERE e.EmployeeId = u.EmployeeId and Username = ? and Password = ?");
             ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(2, DigestUtils.md5Hex(password));
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Employee employee = new Employee();

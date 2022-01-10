@@ -48,7 +48,7 @@ public class LoginController {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 Utils.showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Đăng nhập thành công", "");
-                user = LoginServices.getUserInformation(this.txtUsername.getText(), DigestUtils.md5Hex(this.txtPassword.getText()));
+                user = LoginServices.getUserInformation(this.txtUsername.getText(), this.txtPassword.getText());
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.close();
