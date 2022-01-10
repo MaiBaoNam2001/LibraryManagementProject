@@ -354,8 +354,11 @@ public class BorrowedBookManagementTester {
         validBorrowedCardDetailsList.get(2).setReturnedDate(new SimpleDateFormat("yyyy-MM-dd").parse("2022-01-30"));
         validBorrowedCardDetailsList.get(2).setFine(100000.00);
         BorrowedBookManagementServices.returnBook(validBorrowedCardDetailsList.get(0), ReturnType.RETURNED_BOOK);
+        BorrowedBookManagementServices.updateBookStatus(validBorrowedCardDetailsList.get(0).getBook().getBookId(), "Sẵn sàng");
         BorrowedBookManagementServices.returnBook(validBorrowedCardDetailsList.get(1), ReturnType.RETURNED_BOOK);
+        BorrowedBookManagementServices.updateBookStatus(validBorrowedCardDetailsList.get(1).getBook().getBookId(), "Sẵn sàng");
         BorrowedBookManagementServices.returnBook(validBorrowedCardDetailsList.get(2), ReturnType.LOST_BOOK);
+        BorrowedBookManagementServices.updateBookStatus(validBorrowedCardDetailsList.get(2).getBook().getBookId(), "Mất sách");
         List<BorrowedCardDetails> borrowedCardDetailsList = BorrowedBookManagementServices.getBorrowedCardDetailsListByBorrowedCardId(validBorrowedCard2.getBorrowedCardId());
         assertEquals(5, borrowedCardDetailsList.size());
         for (int i = 0; i < validBorrowedCardDetailsList.size() - 2; i++) {

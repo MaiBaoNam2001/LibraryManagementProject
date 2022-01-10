@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="842ce5e7-7aeb-43e5-ae89-00ee31b14480" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/BorrowedBookManagementTester.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/configs/JDBCUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/configs/JDBCUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/BorrowedBookManagementTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/BorrowedBookManagementTester.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,11 +27,18 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/test/java/ReaderManagementTester.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/test/java/BookManagementTester.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test/java/ReaderManagementTester.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
   </component>
   <component name="ProjectId" id="22mAnXjg8vsZjiNG832r3xxj5oz" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -57,7 +65,7 @@
       <recent name="C:\Users\pc\Desktop\LibraryManagementGUI\src\main\resources\org\example" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.BorrowedBookManagementTester">
+  <component name="RunManager" selected="JUnit.ReaderManagementTester">
     <configuration name="BookManagementTester" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="LibraryManagementGUI" />
       <option name="PACKAGE_NAME" value="" />
@@ -132,15 +140,15 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.BorrowedBookManagementTester" />
         <item itemvalue="JUnit.ReaderManagementTester" />
+        <item itemvalue="JUnit.BorrowedBookManagementTester" />
         <item itemvalue="JUnit.BookManagementTester" />
         <item itemvalue="JUnit.BookManagementTester.testGetBookListByInvalidKeyword" />
         <item itemvalue="JUnit.BookManagementTester.testGetBookListByNull" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -164,11 +172,31 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1641780298318">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1641780298318" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1641780298318">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1641780298318" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1641780298317">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1641780298317" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1641780298318">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1641780298318" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -177,6 +205,11 @@
           <url>file://$PROJECT_DIR$/src/test/java/BookManagementTester.java</url>
           <line>17</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/BorrowedBookManagementTester.java</url>
+          <line>343</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
