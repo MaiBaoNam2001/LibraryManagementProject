@@ -16,9 +16,9 @@ public class ReportServices {
         List<BookReport> bookReportList = new ArrayList<>();
         try (Connection connection = JDBCUtils.getConnection()) {
             String sqlQuery = "SELECT t.TitleId, TitleName,";
-            sqlQuery += " COUNT(IF(BorrowedDate LIKE concat('%',?,'%') OR (Status = 'Đang mượn' AND current_date() LIKE concat('%',?,'%')), 1, null)) AS 'BorrowedBookNumber',";
-            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate LIKE concat('%',?,'%') AND Status != 'Mất sách', 1, null)) AS 'ReturnedBookNumber',";
-            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate LIKE concat('%',?,'%') AND Status = 'Mất sách', 1, null)) AS 'LostBookNumber',";
+            sqlQuery += " COUNT(IF(BorrowedDate LIKE concat('%',?,'%') OR (IsReturned = 0 AND current_date() LIKE concat('%',?,'%')), 1, null)) AS 'BorrowedBookNumber',";
+            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate LIKE concat('%',?,'%') AND Fine != 100000, 1, null)) AS 'ReturnedBookNumber',";
+            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate LIKE concat('%',?,'%') AND Fine = 100000, 1, null)) AS 'LostBookNumber',";
             sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate LIKE concat('%',?,'%') AND Fine > 0 AND Fine != 100000, 1, null)) AS 'OverdueBookNumber'";
             sqlQuery += " FROM title t, book b, borrowed_card_detail bcd, borrowed_card bc";
             sqlQuery += " WHERE t.TitleId = b.TitleId AND b.BookId = bcd.BookId AND bcd.BorrowedCardId = bc.BorrowedCardId";
@@ -69,9 +69,9 @@ public class ReportServices {
         List<BookReport> bookReportList = new ArrayList<>();
         try (Connection connection = JDBCUtils.getConnection()) {
             String sqlQuery = "SELECT t.TitleId, TitleName,";
-            sqlQuery += " COUNT(IF(BorrowedDate REGEXP ? OR (Status = 'Đang mượn' AND current_date() REGEXP ?), 1, null)) AS 'BorrowedBookNumber',";
-            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate REGEXP ? AND Status != 'Mất sách', 1, null)) AS 'ReturnedBookNumber',";
-            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate REGEXP ? AND Status = 'Mất sách', 1, null)) AS 'LostBookNumber',";
+            sqlQuery += " COUNT(IF(BorrowedDate REGEXP ? OR (IsReturned = 0 AND current_date() REGEXP ?), 1, null)) AS 'BorrowedBookNumber',";
+            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate REGEXP ? AND Fine != 100000, 1, null)) AS 'ReturnedBookNumber',";
+            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate REGEXP ? AND Fine = 100000, 1, null)) AS 'LostBookNumber',";
             sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate REGEXP ? AND Fine > 0 AND Fine != 100000, 1, null)) AS 'OverdueBookNumber'";
             sqlQuery += " FROM title t, book b, borrowed_card_detail bcd, borrowed_card bc";
             sqlQuery += " WHERE t.TitleId = b.TitleId AND b.BookId = bcd.BookId AND bcd.BorrowedCardId = bc.BorrowedCardId";
@@ -105,9 +105,9 @@ public class ReportServices {
         List<ReaderReport> readerReportList = new ArrayList<>();
         try (Connection connection = JDBCUtils.getConnection()) {
             String sqlQuery = "SELECT r.ReaderId, ReaderName,";
-            sqlQuery += " COUNT(IF(BorrowedDate LIKE concat('%', ?, '%') OR (Status = 'Đang mượn' AND current_date() LIKE concat('%', ?, '%')), 1, null)) AS 'BorrowedBookNumber',";
-            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate LIKE concat('%', ?, '%') AND Status != 'Mất sách', 1, null)) AS 'ReturnedBookNumber',";
-            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate LIKE concat('%', ?, '%') AND Status = 'Mất sách', 1, null)) AS 'LostBookNumber',";
+            sqlQuery += " COUNT(IF(BorrowedDate LIKE concat('%', ?, '%') OR (IsReturned = 0 AND current_date() LIKE concat('%', ?, '%')), 1, null)) AS 'BorrowedBookNumber',";
+            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate LIKE concat('%', ?, '%') AND Fine != 100000, 1, null)) AS 'ReturnedBookNumber',";
+            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate LIKE concat('%', ?, '%') AND Fine = 100000, 1, null)) AS 'LostBookNumber',";
             sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate LIKE concat('%', ?, '%') AND Fine > 0 AND Fine != 100000, 1, null)) AS 'OverdueBookNumber',";
             sqlQuery += " SUM(IF(IsReturned = 1 AND ReturnedDate LIKE concat('%', ?, '%') AND Fine > 0, Fine, 0)) AS 'Fine'";
             sqlQuery += " FROM reader r, reader_card rc, borrowed_card bc, borrowed_card_detail bcd, book b";
@@ -161,9 +161,9 @@ public class ReportServices {
         List<ReaderReport> readerReportList = new ArrayList<>();
         try (Connection connection = JDBCUtils.getConnection()) {
             String sqlQuery = "SELECT r.ReaderId, ReaderName,";
-            sqlQuery += " COUNT(IF(BorrowedDate REGEXP ? OR (Status = 'Đang mượn' AND current_date() REGEXP ?), 1, null)) AS 'BorrowedBookNumber',";
-            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate REGEXP ? AND Status != 'Mất sách', 1, null)) AS 'ReturnedBookNumber',";
-            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate REGEXP ? AND Status = 'Mất sách', 1, null)) AS 'LostBookNumber',";
+            sqlQuery += " COUNT(IF(BorrowedDate REGEXP ? OR (IsReturned = 0 AND current_date() REGEXP ?), 1, null)) AS 'BorrowedBookNumber',";
+            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate REGEXP ? AND Fine != 100000, 1, null)) AS 'ReturnedBookNumber',";
+            sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate REGEXP ? AND Fine = 100000, 1, null)) AS 'LostBookNumber',";
             sqlQuery += " COUNT(IF(IsReturned = 1 AND ReturnedDate REGEXP ? AND Fine > 0 AND Fine != 100000, 1, null)) AS 'OverdueBookNumber',";
             sqlQuery += " SUM(IF(IsReturned = 1 AND ReturnedDate REGEXP ? AND Fine > 0, Fine, 0)) AS 'Fine'";
             sqlQuery += " FROM reader r, reader_card rc, borrowed_card bc, borrowed_card_detail bcd, book b";
